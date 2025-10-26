@@ -52,8 +52,8 @@ pip install -r requirements.txt
 
 4. Crear un archivo `.env` con tus credenciales
 ```
-TELEGRAM_TOKEN=8326548369:AAENidLIsFUbgYBEgoPmZ-PVJiDg2KkRmY4
-TELEGRAM_CHAT_ID=7846254050
+TELEGRAM_TOKEN=
+TELEGRAM_CHAT_ID=
 ```
 
 5. Configuracion de NGROK
