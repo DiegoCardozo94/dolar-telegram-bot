@@ -2,23 +2,29 @@ from fastapi import FastAPI, Request
 from contextlib import asynccontextmanager
 import requests
 from utils.telegram_client import TOKEN
-from services.dolar_services import fetch_dolar_rates, format_message
-from scheduler import start_scheduler  # scheduler que definiste
-from routes.dolar import router as dolar_router  # tus rutas de /dolar
+from services.dolar_services import (
+    fetch_dolar_rates,
+    format_message,
+    load_last_rates,
+    save_last_rates,
+    log_rates
+)
+from scheduler import start_scheduler  # tu scheduler
+from routes.dolar import router as dolar_router  # rutas /dolar
 
 app = FastAPI(title="Dólar Telegram Bot API")
 
 # ⚙️ Incluir router de rutas de dólar
 app.include_router(dolar_router)
 
-# URL base para Telegram
+# URL base de Telegram
 BASE_URL = f"https://api.telegram.org/bot{TOKEN}"
 
-# 🕓 Ciclo de vida de la app: inicia scheduler al arrancar
+# 🕓 Ciclo de vida: iniciar scheduler al arrancar
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     print("🚀 Iniciando bot y scheduler...")
-    start_scheduler()  # se lanza una vez al iniciar
+    start_scheduler()
     yield
     print("🛑 Apagando bot...")
 
@@ -26,27 +32,20 @@ app.router.lifespan_context = lifespan
 
 @app.get("/health")
 async def health():
-    """
-    Endpoint de salud de la aplicación.
-    Útil para uptime checks y monitoreo.
-    """
     return {"status": "ok"}
 
-# ---------------- Webhook de Telegram ----------------
+# ---------------- Webhook Telegram ----------------
 @app.post("/webhook")
 async def telegram_webhook(request: Request):
     try:
         data = await request.json()
-        print("DATA RECIBIDA:", data)
-
         if "message" not in data:
             return {"ok": True}
 
         chat_id = data["message"]["chat"]["id"]
         text = data["message"].get("text", "").lower().strip()
-        print("CHAT_ID:", chat_id, "TEXTO:", text)
 
-        # ✅ Mensaje de ayuda / bienvenida
+        # Mensaje de bienvenida / ayuda
         if text in ["/start", "/help", "hola", "buenas"]:
             help_msg = (
                 "👋 ¡Bienvenido al bot del Dólar Argentina! 🇦🇷\n\n"
@@ -60,7 +59,7 @@ async def telegram_webhook(request: Request):
                 "/dolar_cripto - cripto\n"
                 "/dolar_mayorista - mayorista"
             )
-            resp = requests.post(
+            requests.post(
                 f"{BASE_URL}/sendMessage",
                 data={"chat_id": chat_id, "text": help_msg, "parse_mode": "HTML"},
             )
@@ -85,7 +84,14 @@ async def telegram_webhook(request: Request):
             elif "mayorista" in text:
                 tipo = "mayorista"
 
-            msg = format_message(rates_data, tipo)
+            # Cargar última cotización para calcular variación
+            last_rates = load_last_rates()
+            msg = format_message(rates_data, last_rates, tipo)
+            # Guardar cotización actual como "last_rates"
+            save_last_rates(rates_data.get("rates", {}))
+            # Guardar historial en CSV
+            log_rates(rates_data.get("rates", {}))
+
             requests.post(
                 f"{BASE_URL}/sendMessage",
                 data={"chat_id": chat_id, "text": msg, "parse_mode": "HTML"},

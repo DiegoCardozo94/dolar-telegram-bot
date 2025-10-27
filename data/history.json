@@ -1,0 +1,1465 @@
+{
+  "oficial": [
+    {
+      "timestamp": "2025-10-27T15:01:00.487622",
+      "compra": 1400,
+      "venta": 1450,
+      "diff_compra": 1400,
+      "diff_venta": 1450,
+      "pct_compra": 0,
+      "pct_venta": 0
+    },
+    {
+      "timestamp": "2025-10-27T15:04:58.324256",
+      "compra": 1400,
+      "venta": 1450,
+      "diff_compra": 0,
+      "diff_venta": 0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:09:45.169748",
+      "compra": 1400,
+      "venta": 1450,
+      "diff_compra": 0,
+      "diff_venta": 0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:38:57.246491",
+      "compra": 1410,
+      "venta": 1460,
+      "diff_compra": 10,
+      "diff_venta": 10,
+      "pct_compra": 0.71,
+      "pct_venta": 0.69
+    },
+    {
+      "timestamp": "2025-10-27T15:41:25.367860",
+      "compra": 1410,
+      "venta": 1460,
+      "diff_compra": 0,
+      "diff_venta": 0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:43:12.549326",
+      "compra": 1410,
+      "venta": 1460,
+      "diff_compra": 0,
+      "diff_venta": 0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:44:13.027595",
+      "compra": 1410,
+      "venta": 1460,
+      "diff_compra": 0,
+      "diff_venta": 0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:45:07.759661",
+      "compra": 1410,
+      "venta": 1460,
+      "diff_compra": 0,
+      "diff_venta": 0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:46:09.961506",
+      "compra": 1410,
+      "venta": 1460,
+      "diff_compra": 0,
+      "diff_venta": 0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:47:12.029992",
+      "compra": 1410,
+      "venta": 1460,
+      "diff_compra": 0,
+      "diff_venta": 0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:48:14.480075",
+      "compra": 1410,
+      "venta": 1460,
+      "diff_compra": 0,
+      "diff_venta": 0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:48:33.352435",
+      "compra": 1410,
+      "venta": 1460,
+      "diff_compra": 0,
+      "diff_venta": 0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:49:21.870213",
+      "compra": 1410,
+      "venta": 1460,
+      "diff_compra": 0,
+      "diff_venta": 0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:49:53.294633",
+      "compra": 1410,
+      "venta": 1460,
+      "diff_compra": 0,
+      "diff_venta": 0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:50:55.234633",
+      "compra": 1410,
+      "venta": 1460,
+      "diff_compra": 0,
+      "diff_venta": 0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:51:57.139646",
+      "compra": 1410,
+      "venta": 1460,
+      "diff_compra": 0,
+      "diff_venta": 0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:52:59.252917",
+      "compra": 1410,
+      "venta": 1460,
+      "diff_compra": 0,
+      "diff_venta": 0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:54:00.523128",
+      "compra": 1410,
+      "venta": 1460,
+      "diff_compra": 0,
+      "diff_venta": 0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:54:01.227687",
+      "compra": 1410,
+      "venta": 1460,
+      "diff_compra": 0,
+      "diff_venta": 0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:54:24.747600",
+      "compra": 1410,
+      "venta": 1460,
+      "diff_compra": 0,
+      "diff_venta": 0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:55:08.360249",
+      "compra": 1410,
+      "venta": 1460,
+      "diff_compra": 0,
+      "diff_venta": 0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:56:10.273541",
+      "compra": 1410,
+      "venta": 1460,
+      "diff_compra": 0,
+      "diff_venta": 0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:57:12.377582",
+      "compra": 1410,
+      "venta": 1460,
+      "diff_compra": 0,
+      "diff_venta": 0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    }
+  ],
+  "blue": [
+    {
+      "timestamp": "2025-10-27T15:01:01.557402",
+      "compra": 1420,
+      "venta": 1440,
+      "diff_compra": 1420,
+      "diff_venta": 1440,
+      "pct_compra": 0,
+      "pct_venta": 0
+    },
+    {
+      "timestamp": "2025-10-27T15:04:58.882291",
+      "compra": 1420,
+      "venta": 1440,
+      "diff_compra": 0,
+      "diff_venta": 0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:09:45.610723",
+      "compra": 1420,
+      "venta": 1440,
+      "diff_compra": 0,
+      "diff_venta": 0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:38:58.318876",
+      "compra": 1430,
+      "venta": 1450,
+      "diff_compra": 10,
+      "diff_venta": 10,
+      "pct_compra": 0.7,
+      "pct_venta": 0.69
+    },
+    {
+      "timestamp": "2025-10-27T15:41:25.837177",
+      "compra": 1430,
+      "venta": 1450,
+      "diff_compra": 0,
+      "diff_venta": 0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:43:12.833634",
+      "compra": 1430,
+      "venta": 1450,
+      "diff_compra": 0,
+      "diff_venta": 0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:44:13.301606",
+      "compra": 1430,
+      "venta": 1450,
+      "diff_compra": 0,
+      "diff_venta": 0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:45:08.156029",
+      "compra": 1430,
+      "venta": 1450,
+      "diff_compra": 0,
+      "diff_venta": 0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:46:10.255351",
+      "compra": 1430,
+      "venta": 1450,
+      "diff_compra": 0,
+      "diff_venta": 0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:47:12.506176",
+      "compra": 1430,
+      "venta": 1450,
+      "diff_compra": 0,
+      "diff_venta": 0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:48:14.755920",
+      "compra": 1430,
+      "venta": 1450,
+      "diff_compra": 0,
+      "diff_venta": 0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:48:33.609909",
+      "compra": 1430,
+      "venta": 1450,
+      "diff_compra": 0,
+      "diff_venta": 0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:49:22.356075",
+      "compra": 1430,
+      "venta": 1450,
+      "diff_compra": 0,
+      "diff_venta": 0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:49:53.558515",
+      "compra": 1430,
+      "venta": 1450,
+      "diff_compra": 0,
+      "diff_venta": 0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:50:55.500371",
+      "compra": 1430,
+      "venta": 1450,
+      "diff_compra": 0,
+      "diff_venta": 0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:51:57.577844",
+      "compra": 1430,
+      "venta": 1450,
+      "diff_compra": 0,
+      "diff_venta": 0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:52:59.552257",
+      "compra": 1430,
+      "venta": 1450,
+      "diff_compra": 0,
+      "diff_venta": 0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:54:00.983090",
+      "compra": 1430,
+      "venta": 1450,
+      "diff_compra": 0,
+      "diff_venta": 0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:54:01.493774",
+      "compra": 1430,
+      "venta": 1450,
+      "diff_compra": 0,
+      "diff_venta": 0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:54:25.020431",
+      "compra": 1430,
+      "venta": 1450,
+      "diff_compra": 0,
+      "diff_venta": 0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:55:08.664708",
+      "compra": 1430,
+      "venta": 1450,
+      "diff_compra": 0,
+      "diff_venta": 0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:56:10.735272",
+      "compra": 1430,
+      "venta": 1450,
+      "diff_compra": 0,
+      "diff_venta": 0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:57:12.659625",
+      "compra": 1430,
+      "venta": 1450,
+      "diff_compra": 0,
+      "diff_venta": 0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    }
+  ],
+  "mep": [
+    {
+      "timestamp": "2025-10-27T15:01:01.820104",
+      "compra": 1440.1,
+      "venta": 1441.8,
+      "diff_compra": 1440.1,
+      "diff_venta": 1441.8,
+      "pct_compra": 0,
+      "pct_venta": 0
+    },
+    {
+      "timestamp": "2025-10-27T15:04:59.149587",
+      "compra": 1440.1,
+      "venta": 1441.8,
+      "diff_compra": 0.0,
+      "diff_venta": 0.0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:09:45.861460",
+      "compra": 1440.1,
+      "venta": 1441.8,
+      "diff_compra": 0.0,
+      "diff_venta": 0.0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:38:58.578626",
+      "compra": 1452.7,
+      "venta": 1458.7,
+      "diff_compra": 12.600000000000136,
+      "diff_venta": 16.90000000000009,
+      "pct_compra": 0.87,
+      "pct_venta": 1.17
+    },
+    {
+      "timestamp": "2025-10-27T15:41:26.096553",
+      "compra": 1452.7,
+      "venta": 1458.7,
+      "diff_compra": 0.0,
+      "diff_venta": 0.0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:43:13.083188",
+      "compra": 1452.7,
+      "venta": 1458.7,
+      "diff_compra": 0.0,
+      "diff_venta": 0.0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:44:13.548017",
+      "compra": 1452.7,
+      "venta": 1458.7,
+      "diff_compra": 0.0,
+      "diff_venta": 0.0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:45:08.443931",
+      "compra": 1452.7,
+      "venta": 1458.7,
+      "diff_compra": 0.0,
+      "diff_venta": 0.0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:46:10.530517",
+      "compra": 1452.7,
+      "venta": 1458.7,
+      "diff_compra": 0.0,
+      "diff_venta": 0.0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:47:12.792403",
+      "compra": 1452.7,
+      "venta": 1458.7,
+      "diff_compra": 0.0,
+      "diff_venta": 0.0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:48:15.016124",
+      "compra": 1452.7,
+      "venta": 1458.7,
+      "diff_compra": 0.0,
+      "diff_venta": 0.0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:48:33.890959",
+      "compra": 1452.7,
+      "venta": 1458.7,
+      "diff_compra": 0.0,
+      "diff_venta": 0.0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:49:22.627266",
+      "compra": 1452.7,
+      "venta": 1458.7,
+      "diff_compra": 0.0,
+      "diff_venta": 0.0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:49:53.820497",
+      "compra": 1452.7,
+      "venta": 1458.7,
+      "diff_compra": 0.0,
+      "diff_venta": 0.0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:50:55.763808",
+      "compra": 1452.7,
+      "venta": 1458.7,
+      "diff_compra": 0.0,
+      "diff_venta": 0.0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:51:57.843285",
+      "compra": 1452.7,
+      "venta": 1458.7,
+      "diff_compra": 0.0,
+      "diff_venta": 0.0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:52:59.809409",
+      "compra": 1452.7,
+      "venta": 1458.7,
+      "diff_compra": 0.0,
+      "diff_venta": 0.0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:54:01.243472",
+      "compra": 1452.7,
+      "venta": 1458.7,
+      "diff_compra": 0.0,
+      "diff_venta": 0.0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:54:01.751468",
+      "compra": 1452.7,
+      "venta": 1458.7,
+      "diff_compra": 0.0,
+      "diff_venta": 0.0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:54:25.265829",
+      "compra": 1452.7,
+      "venta": 1458.7,
+      "diff_compra": 0.0,
+      "diff_venta": 0.0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:55:08.898324",
+      "compra": 1452.7,
+      "venta": 1458.7,
+      "diff_compra": 0.0,
+      "diff_venta": 0.0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:56:11.022101",
+      "compra": 1452.7,
+      "venta": 1458.7,
+      "diff_compra": 0.0,
+      "diff_venta": 0.0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:57:12.910704",
+      "compra": 1452.7,
+      "venta": 1458.7,
+      "diff_compra": 0.0,
+      "diff_venta": 0.0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    }
+  ],
+  "ccl": [
+    {
+      "timestamp": "2025-10-27T15:01:02.092185",
+      "compra": 1449,
+      "venta": 1450,
+      "diff_compra": 1449,
+      "diff_venta": 1450,
+      "pct_compra": 0,
+      "pct_venta": 0
+    },
+    {
+      "timestamp": "2025-10-27T15:04:59.401877",
+      "compra": 1449,
+      "venta": 1450,
+      "diff_compra": 0,
+      "diff_venta": 0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:09:46.101476",
+      "compra": 1449,
+      "venta": 1450,
+      "diff_compra": 0,
+      "diff_venta": 0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:38:58.833072",
+      "compra": 1463.5,
+      "venta": 1464.8,
+      "diff_compra": 14.5,
+      "diff_venta": 14.799999999999955,
+      "pct_compra": 1.0,
+      "pct_venta": 1.02
+    },
+    {
+      "timestamp": "2025-10-27T15:41:26.345324",
+      "compra": 1463.5,
+      "venta": 1464.8,
+      "diff_compra": 0.0,
+      "diff_venta": 0.0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:43:13.337623",
+      "compra": 1463.5,
+      "venta": 1464.8,
+      "diff_compra": 0.0,
+      "diff_venta": 0.0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:44:13.792320",
+      "compra": 1463.5,
+      "venta": 1464.8,
+      "diff_compra": 0.0,
+      "diff_venta": 0.0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:45:08.729544",
+      "compra": 1463.5,
+      "venta": 1464.8,
+      "diff_compra": 0.0,
+      "diff_venta": 0.0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:46:10.800869",
+      "compra": 1463.5,
+      "venta": 1464.8,
+      "diff_compra": 0.0,
+      "diff_venta": 0.0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:47:13.056918",
+      "compra": 1463.5,
+      "venta": 1464.8,
+      "diff_compra": 0.0,
+      "diff_venta": 0.0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:48:15.271430",
+      "compra": 1463.5,
+      "venta": 1464.8,
+      "diff_compra": 0.0,
+      "diff_venta": 0.0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:48:34.139219",
+      "compra": 1463.5,
+      "venta": 1464.8,
+      "diff_compra": 0.0,
+      "diff_venta": 0.0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:49:22.882868",
+      "compra": 1463.5,
+      "venta": 1464.8,
+      "diff_compra": 0.0,
+      "diff_venta": 0.0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:49:54.076862",
+      "compra": 1463.5,
+      "venta": 1464.8,
+      "diff_compra": 0.0,
+      "diff_venta": 0.0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:50:56.024799",
+      "compra": 1463.5,
+      "venta": 1464.8,
+      "diff_compra": 0.0,
+      "diff_venta": 0.0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:51:58.094247",
+      "compra": 1463.5,
+      "venta": 1464.8,
+      "diff_compra": 0.0,
+      "diff_venta": 0.0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:53:00.054637",
+      "compra": 1463.5,
+      "venta": 1464.8,
+      "diff_compra": 0.0,
+      "diff_venta": 0.0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:54:01.812988",
+      "compra": 1463.5,
+      "venta": 1464.8,
+      "diff_compra": 0.0,
+      "diff_venta": 0.0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:54:02.000024",
+      "compra": 1463.5,
+      "venta": 1464.8,
+      "diff_compra": 0.0,
+      "diff_venta": 0.0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:54:25.497569",
+      "compra": 1463.5,
+      "venta": 1464.8,
+      "diff_compra": 0.0,
+      "diff_venta": 0.0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:55:09.144934",
+      "compra": 1463.5,
+      "venta": 1464.8,
+      "diff_compra": 0.0,
+      "diff_venta": 0.0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:56:11.250187",
+      "compra": 1463.5,
+      "venta": 1464.8,
+      "diff_compra": 0.0,
+      "diff_venta": 0.0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:57:13.171009",
+      "compra": 1463.5,
+      "venta": 1464.8,
+      "diff_compra": 0.0,
+      "diff_venta": 0.0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    }
+  ],
+  "mayorista": [
+    {
+      "timestamp": "2025-10-27T15:01:02.349551",
+      "compra": 1401,
+      "venta": 1410,
+      "diff_compra": 1401,
+      "diff_venta": 1410,
+      "pct_compra": 0,
+      "pct_venta": 0
+    },
+    {
+      "timestamp": "2025-10-27T15:04:59.653783",
+      "compra": 1401,
+      "venta": 1410,
+      "diff_compra": 0,
+      "diff_venta": 0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:09:46.346931",
+      "compra": 1401,
+      "venta": 1410,
+      "diff_compra": 0,
+      "diff_venta": 0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:38:59.090909",
+      "compra": 1416,
+      "venta": 1425,
+      "diff_compra": 15,
+      "diff_venta": 15,
+      "pct_compra": 1.07,
+      "pct_venta": 1.06
+    },
+    {
+      "timestamp": "2025-10-27T15:41:26.606005",
+      "compra": 1416,
+      "venta": 1425,
+      "diff_compra": 0,
+      "diff_venta": 0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:43:13.600080",
+      "compra": 1416,
+      "venta": 1425,
+      "diff_compra": 0,
+      "diff_venta": 0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:44:14.035243",
+      "compra": 1416,
+      "venta": 1425,
+      "diff_compra": 0,
+      "diff_venta": 0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:45:09.008150",
+      "compra": 1416,
+      "venta": 1425,
+      "diff_compra": 0,
+      "diff_venta": 0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:46:11.076553",
+      "compra": 1416,
+      "venta": 1425,
+      "diff_compra": 0,
+      "diff_venta": 0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:47:13.312547",
+      "compra": 1416,
+      "venta": 1425,
+      "diff_compra": 0,
+      "diff_venta": 0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:48:15.532938",
+      "compra": 1416,
+      "venta": 1425,
+      "diff_compra": 0,
+      "diff_venta": 0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:48:34.390865",
+      "compra": 1416,
+      "venta": 1425,
+      "diff_compra": 0,
+      "diff_venta": 0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:49:23.137353",
+      "compra": 1416,
+      "venta": 1425,
+      "diff_compra": 0,
+      "diff_venta": 0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:49:54.324504",
+      "compra": 1416,
+      "venta": 1425,
+      "diff_compra": 0,
+      "diff_venta": 0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:50:56.284282",
+      "compra": 1416,
+      "venta": 1425,
+      "diff_compra": 0,
+      "diff_venta": 0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:51:58.363905",
+      "compra": 1416,
+      "venta": 1425,
+      "diff_compra": 0,
+      "diff_venta": 0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:53:00.322461",
+      "compra": 1416,
+      "venta": 1425,
+      "diff_compra": 0,
+      "diff_venta": 0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:54:02.060239",
+      "compra": 1416,
+      "venta": 1425,
+      "diff_compra": 0,
+      "diff_venta": 0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:54:02.268517",
+      "compra": 1416,
+      "venta": 1425,
+      "diff_compra": 0,
+      "diff_venta": 0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:54:25.753179",
+      "compra": 1416,
+      "venta": 1425,
+      "diff_compra": 0,
+      "diff_venta": 0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:55:09.387168",
+      "compra": 1416,
+      "venta": 1425,
+      "diff_compra": 0,
+      "diff_venta": 0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:56:11.537838",
+      "compra": 1416,
+      "venta": 1425,
+      "diff_compra": 0,
+      "diff_venta": 0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:57:13.411191",
+      "compra": 1416,
+      "venta": 1425,
+      "diff_compra": 0,
+      "diff_venta": 0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    }
+  ],
+  "cripto": [
+    {
+      "timestamp": "2025-10-27T15:01:02.620315",
+      "compra": 1514,
+      "venta": 1520,
+      "diff_compra": 1514,
+      "diff_venta": 1520,
+      "pct_compra": 0,
+      "pct_venta": 0
+    },
+    {
+      "timestamp": "2025-10-27T15:04:59.921821",
+      "compra": 1514,
+      "venta": 1520,
+      "diff_compra": 0,
+      "diff_venta": 0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:09:46.623361",
+      "compra": 1514,
+      "venta": 1520,
+      "diff_compra": 0,
+      "diff_venta": 0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:38:59.366559",
+      "compra": 1514,
+      "venta": 1520,
+      "diff_compra": 0,
+      "diff_venta": 0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:41:26.861711",
+      "compra": 1514,
+      "venta": 1520,
+      "diff_compra": 0,
+      "diff_venta": 0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:43:13.844426",
+      "compra": 1514,
+      "venta": 1520,
+      "diff_compra": 0,
+      "diff_venta": 0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:44:14.282402",
+      "compra": 1514,
+      "venta": 1520,
+      "diff_compra": 0,
+      "diff_venta": 0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:45:09.272449",
+      "compra": 1514,
+      "venta": 1520,
+      "diff_compra": 0,
+      "diff_venta": 0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:46:11.355271",
+      "compra": 1514,
+      "venta": 1520,
+      "diff_compra": 0,
+      "diff_venta": 0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:47:13.573102",
+      "compra": 1514,
+      "venta": 1520,
+      "diff_compra": 0,
+      "diff_venta": 0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:48:15.787358",
+      "compra": 1514,
+      "venta": 1520,
+      "diff_compra": 0,
+      "diff_venta": 0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:48:34.652224",
+      "compra": 1514,
+      "venta": 1520,
+      "diff_compra": 0,
+      "diff_venta": 0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:49:23.393737",
+      "compra": 1514,
+      "venta": 1520,
+      "diff_compra": 0,
+      "diff_venta": 0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:49:54.604970",
+      "compra": 1514,
+      "venta": 1520,
+      "diff_compra": 0,
+      "diff_venta": 0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:50:56.537407",
+      "compra": 1514,
+      "venta": 1520,
+      "diff_compra": 0,
+      "diff_venta": 0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:51:58.608200",
+      "compra": 1514,
+      "venta": 1520,
+      "diff_compra": 0,
+      "diff_venta": 0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:53:00.563134",
+      "compra": 1514,
+      "venta": 1520,
+      "diff_compra": 0,
+      "diff_venta": 0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:54:02.303242",
+      "compra": 1514,
+      "venta": 1520,
+      "diff_compra": 0,
+      "diff_venta": 0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:54:02.524979",
+      "compra": 1514,
+      "venta": 1520,
+      "diff_compra": 0,
+      "diff_venta": 0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:54:25.985011",
+      "compra": 1514,
+      "venta": 1520,
+      "diff_compra": 0,
+      "diff_venta": 0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:55:09.635001",
+      "compra": 1514,
+      "venta": 1520,
+      "diff_compra": 0,
+      "diff_venta": 0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:56:11.768871",
+      "compra": 1514,
+      "venta": 1520,
+      "diff_compra": 0,
+      "diff_venta": 0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:57:13.679705",
+      "compra": 1514,
+      "venta": 1520,
+      "diff_compra": 0,
+      "diff_venta": 0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    }
+  ],
+  "tarjeta": [
+    {
+      "timestamp": "2025-10-27T15:01:02.883657",
+      "compra": 1820,
+      "venta": 1885,
+      "diff_compra": 1820,
+      "diff_venta": 1885,
+      "pct_compra": 0,
+      "pct_venta": 0
+    },
+    {
+      "timestamp": "2025-10-27T15:05:00.182268",
+      "compra": 1820,
+      "venta": 1885,
+      "diff_compra": 0,
+      "diff_venta": 0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:09:46.869847",
+      "compra": 1820,
+      "venta": 1885,
+      "diff_compra": 0,
+      "diff_venta": 0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:38:59.621842",
+      "compra": 1833,
+      "venta": 1898,
+      "diff_compra": 13,
+      "diff_venta": 13,
+      "pct_compra": 0.71,
+      "pct_venta": 0.69
+    },
+    {
+      "timestamp": "2025-10-27T15:41:27.115678",
+      "compra": 1833,
+      "venta": 1898,
+      "diff_compra": 0,
+      "diff_venta": 0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:43:14.087687",
+      "compra": 1833,
+      "venta": 1898,
+      "diff_compra": 0,
+      "diff_venta": 0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:44:14.528630",
+      "compra": 1833,
+      "venta": 1898,
+      "diff_compra": 0,
+      "diff_venta": 0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:45:09.546622",
+      "compra": 1833,
+      "venta": 1898,
+      "diff_compra": 0,
+      "diff_venta": 0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:46:11.629758",
+      "compra": 1833,
+      "venta": 1898,
+      "diff_compra": 0,
+      "diff_venta": 0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:47:13.833632",
+      "compra": 1833,
+      "venta": 1898,
+      "diff_compra": 0,
+      "diff_venta": 0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:48:16.043757",
+      "compra": 1833,
+      "venta": 1898,
+      "diff_compra": 0,
+      "diff_venta": 0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:48:34.904863",
+      "compra": 1833,
+      "venta": 1898,
+      "diff_compra": 0,
+      "diff_venta": 0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:49:23.651194",
+      "compra": 1833,
+      "venta": 1898,
+      "diff_compra": 0,
+      "diff_venta": 0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:49:54.851265",
+      "compra": 1833,
+      "venta": 1898,
+      "diff_compra": 0,
+      "diff_venta": 0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:50:56.784520",
+      "compra": 1833,
+      "venta": 1898,
+      "diff_compra": 0,
+      "diff_venta": 0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:51:58.860816",
+      "compra": 1833,
+      "venta": 1898,
+      "diff_compra": 0,
+      "diff_venta": 0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:53:00.808435",
+      "compra": 1833,
+      "venta": 1898,
+      "diff_compra": 0,
+      "diff_venta": 0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:54:02.530216",
+      "compra": 1833,
+      "venta": 1898,
+      "diff_compra": 0,
+      "diff_venta": 0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:54:02.773262",
+      "compra": 1833,
+      "venta": 1898,
+      "diff_compra": 0,
+      "diff_venta": 0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:54:26.228000",
+      "compra": 1833,
+      "venta": 1898,
+      "diff_compra": 0,
+      "diff_venta": 0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:55:09.876196",
+      "compra": 1833,
+      "venta": 1898,
+      "diff_compra": 0,
+      "diff_venta": 0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:56:12.012114",
+      "compra": 1833,
+      "venta": 1898,
+      "diff_compra": 0,
+      "diff_venta": 0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T15:57:13.926877",
+      "compra": 1833,
+      "venta": 1898,
+      "diff_compra": 0,
+      "diff_venta": 0,
+      "pct_compra": 0.0,
+      "pct_venta": 0.0
+    }
+  ]
+}
