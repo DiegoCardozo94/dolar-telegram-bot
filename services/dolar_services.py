@@ -99,3 +99,13 @@ def save_last_rates(rates):
     os.makedirs("data", exist_ok=True)
     with open(LAST_RATES_FILE, "w") as f:
         json.dump(rates, f)
+
+def get_all_dolar_rates():
+    """
+    Devuelve solo las cotizaciones (dict simple)
+    para ser usado por el scheduler.
+    """
+    result = fetch_dolar_rates()
+    if "rates" in result:
+        return result["rates"]
+    return {}
