@@ -40,10 +40,6 @@ async def get_dolar_rates():
         log_rates(data["rates"])
     return {"rates": data, "message": message}
 
-@router.get("/health")
-async def health():
-    return {"status": "ok"}
-
 @router.get("/grafico")
 async def grafico_dolar():
     if not os.path.isfile(HISTORY_FILE):

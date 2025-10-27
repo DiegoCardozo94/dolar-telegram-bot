@@ -3,21 +3,36 @@ from contextlib import asynccontextmanager
 import requests
 from utils.telegram_client import TOKEN
 from services.dolar_services import fetch_dolar_rates, format_message
-from scheduler import start_scheduler  # 👈 nuevo import
+from scheduler import start_scheduler  # scheduler que definiste
+from routes.dolar import router as dolar_router  # tus rutas de /dolar
 
-app = FastAPI()
+app = FastAPI(title="Dólar Telegram Bot API")
 
-# URL base para el webhook
+# ⚙️ Incluir router de rutas de dólar
+app.include_router(dolar_router)
+
+# URL base para Telegram
 BASE_URL = f"https://api.telegram.org/bot{TOKEN}"
 
-# 🕓 Nuevo manejador de ciclo de vida
+# 🕓 Ciclo de vida de la app: inicia scheduler al arrancar
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     print("🚀 Iniciando bot y scheduler...")
     start_scheduler()  # se lanza una vez al iniciar
-    yield  # Aquí corre la app
+    yield
     print("🛑 Apagando bot...")
 
+app.router.lifespan_context = lifespan
+
+@app.get("/health")
+async def health():
+    """
+    Endpoint de salud de la aplicación.
+    Útil para uptime checks y monitoreo.
+    """
+    return {"status": "ok"}
+
+# ---------------- Webhook de Telegram ----------------
 @app.post("/webhook")
 async def telegram_webhook(request: Request):
     try:
@@ -25,20 +40,17 @@ async def telegram_webhook(request: Request):
         print("DATA RECIBIDA:", data)
 
         if "message" not in data:
-            print("No es un mensaje, ignorando")
             return {"ok": True}
 
         chat_id = data["message"]["chat"]["id"]
         text = data["message"].get("text", "").lower().strip()
         print("CHAT_ID:", chat_id, "TEXTO:", text)
 
-        # ✅ Mensaje de bienvenida / ayuda
-        if text == "/start" or text in ["/help", "hola", "buenas"]:
+        # ✅ Mensaje de ayuda / bienvenida
+        if text in ["/start", "/help", "hola", "buenas"]:
             help_msg = (
                 "👋 ¡Bienvenido al bot del Dólar Argentina! 🇦🇷\n\n"
-                "Te puedo mostrar las cotizaciones en tiempo real y avisarte "
-                "si cambian durante el día (10 a 17 hs).\n\n"
-                "💵 <b>Comandos disponibles:</b>\n"
+                "💵 Comandos disponibles:\n"
                 "/dolar - todas las cotizaciones\n"
                 "/dolar_oficial - oficial\n"
                 "/dolar_blue - blue\n"
@@ -52,10 +64,9 @@ async def telegram_webhook(request: Request):
                 f"{BASE_URL}/sendMessage",
                 data={"chat_id": chat_id, "text": help_msg, "parse_mode": "HTML"},
             )
-            print("RESPUESTA TELEGRAM (help):", resp.text)
             return {"ok": True}
 
-        # ✅ Comando /dolar o variantes
+        # ✅ Comando /dolar y variantes
         if text.startswith("/dolar"):
             rates_data = fetch_dolar_rates()
             tipo = None
@@ -75,16 +86,14 @@ async def telegram_webhook(request: Request):
                 tipo = "mayorista"
 
             msg = format_message(rates_data, tipo)
-            print("MENSAJE A ENVIAR:", msg)
-            resp = requests.post(
+            requests.post(
                 f"{BASE_URL}/sendMessage",
                 data={"chat_id": chat_id, "text": msg, "parse_mode": "HTML"},
             )
-            print("RESPUESTA TELEGRAM:", resp.text)
             return {"ok": True}
 
         # Mensaje por defecto si no reconoce el comando
-        resp = requests.post(
+        requests.post(
             f"{BASE_URL}/sendMessage",
             data={
                 "chat_id": chat_id,
@@ -92,7 +101,6 @@ async def telegram_webhook(request: Request):
                 "parse_mode": "HTML",
             },
         )
-        print("RESPUESTA TELEGRAM (default):", resp.text)
         return {"ok": True}
 
     except Exception as e:
