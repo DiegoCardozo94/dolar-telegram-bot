@@ -3,15 +3,23 @@ from datetime import datetime
 import json, os, csv
 from services.dolar_services import get_all_dolar_rates
 from utils.telegram_client import send_telegram_message
+import pandas as pd
+from services.dolar_services import fetch_dolar_rates
 
 # ⚙️ Configuración
 DATA_FILE = "data/last_rates.json"
 HISTORY_JSON_FILE = "data/history.json"
+
 HISTORY_CSV_FILE = "data/dolar_history.csv"
+os.makedirs(os.path.dirname(HISTORY_CSV_FILE), exist_ok=True)
+
 ERROR_LOG = "logs/errors.log"
 CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
 CHECK_INTERVAL_MINUTES = 5
 MIN_CHANGE_THRESHOLD = 0.5  # aviso solo si cambió al menos $0.50
+
+# Tipos de dólar que queremos registrar
+DOLAR_TYPES = ["oficial", "blue", "mep", "ccl", "tarjeta", "cripto", "mayorista"]
 
 scheduler = BackgroundScheduler()
 last_rates = {}
@@ -179,6 +187,29 @@ def log_history_if_significant(dolar_name, compra, venta, last_compra, last_vent
             "diff_venta": diff_venta
         })
 
+def log_rates_auto():
+    """Función que se ejecuta automáticamente cada intervalo y guarda cotizaciones en CSV."""
+    try:
+        data = fetch_dolar_rates()
+        rates = data.get("rates", {})
+        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        row = {"timestamp": timestamp}
+        
+        for tipo in DOLAR_TYPES:
+            r = rates.get(tipo, {})
+            try:
+                row[tipo] = float(r.get("venta", 0))
+            except (ValueError, TypeError):
+                row[tipo] = 0
+
+        file_exists = os.path.isfile(HISTORY_CSV_FILE)
+        df = pd.DataFrame([row])
+        df.to_csv(HISTORY_CSV_FILE, mode='a', header=not file_exists, index=False)
+        print(f"✅ Cotizaciones guardadas: {timestamp}")
+    
+    except Exception as e:
+        print(f"⚠️ Error guardando cotizaciones automáticas: {e}")
+
 # ---------------- Inicializar scheduler ----------------
 def start_scheduler():
     global last_rates
@@ -186,6 +217,8 @@ def start_scheduler():
     scheduler.add_job(check_dolar_changes, "interval", minutes=CHECK_INTERVAL_MINUTES)
     scheduler.add_job(send_daily_summary, "cron", hour=17, minute=1)
     scheduler.add_job(reset_market_flags, "cron", hour=0, minute=1)
+    scheduler.add_job(log_rates_auto, 'interval', minutes=5, id='log_rates_job', replace_existing=True)
+
     scheduler.start()
     print("✅ Scheduler iniciado (monitoreo de cotizaciones activo)")
     # Primer chequeo inmediato
