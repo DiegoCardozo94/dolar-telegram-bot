@@ -1,30 +1,15 @@
-from fastapi import FastAPI, Request
-from fastapi.templating import Jinja2Templates
-from fastapi.responses import HTMLResponse
+from flask.flask import Flask, render_template
 from datetime import datetime
-import random
-import locale
+import random, locale
+from services.dolar_services import load_last_rates, get_all_dolar_rates, save_last_rates
 
-from services.dolar_services import (
-    load_last_rates,
-    get_all_dolar_rates,
-    save_last_rates,
-    load_initial_rates,
-    save_initial_rates
-)
-
-app = FastAPI()
-
-templates = Jinja2Templates(directory="templates")
+app = Flask(__name__)
 
 # ----------------- Helpers -----------------
 def emoji(diff):
-    if diff > 0:
-        return "🟢"
-    elif diff < 0:
-        return "🔴"
-    else:
-        return "🟡"
+    if diff > 0: return "🟢"
+    elif diff < 0: return "🔴"
+    else: return "🟡"
 
 # Valores iniciales para el mock
 initial_rates_mock = {
@@ -36,6 +21,9 @@ initial_rates_mock = {
     "cripto": 600,
     "mayorista": 345
 }
+
+# Valores iniciales del día para la API real
+initial_rates_real = {}
 
 def prepare_data(data_dict, initial_dict=None):
     """Calcula emojis y variaciones %"""
@@ -69,24 +57,9 @@ def prepare_data(data_dict, initial_dict=None):
         }
     return prepared
 
-# Configuramos locale a español (funciona en sistemas donde está disponible)
-try:
-    locale.setlocale(locale.LC_TIME, "es_ES.UTF-8")
-except locale.Error:
-    # Windows o sistemas sin locale instalado
-    locale.setlocale(locale.LC_TIME, "Spanish_Spain")
-
-def get_full_date():
-    now = datetime.now()
-    day_name = now.strftime("%A").capitalize()
-    day_num = now.day
-    month_name = now.strftime("%B").capitalize()
-    return f"Cotización del dólar hoy {day_name} {day_num} de {month_name}"
-
 # ----------------- Routes -----------------
-
-@app.get("/mock", response_class=HTMLResponse)
-async def mock_rates(request: Request):
+@app.route("/mock")
+def mock_rates():
     now = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     full_date = get_full_date()
     data = {}
@@ -101,31 +74,56 @@ async def mock_rates(request: Request):
     for name in data:
         initial_rates_mock[name] = (data[name]["compra"] + data[name]["venta"]) / 2
 
-    return templates.TemplateResponse(
-        "dolar_table.html",
-        {"request": request, "title": "Mock Cotizaciones", "now": now, "full_date": full_date, "data": prepared}
-    )
+    return render_template("dolar_table.html", title="Mock Cotizaciones", now=now, full_date=full_date, data=prepared)
 
-@app.get("/", response_class=HTMLResponse)
-async def real_rates(request: Request):
+# Configuramos locale a español (funciona en sistemas donde está disponible)
+try:
+    locale.setlocale(locale.LC_TIME, "es_ES.UTF-8")
+except locale.Error:
+    # Windows o sistemas sin locale instalado
+    locale.setlocale(locale.LC_TIME, "Spanish_Spain")
+
+def get_full_date():
+    now = datetime.now()
+    # Ejemplo: Lunes 27 de Octubre
+    day_name = now.strftime("%A").capitalize()
+    day_num = now.day
+    month_name = now.strftime("%B").capitalize()
+    return f"Cotización del dólar hoy {day_name} {day_num} de {month_name}"
+
+# En tu función Flask, haces algo así:
+from services.dolar_services import load_initial_rates, save_initial_rates
+
+@app.route("/real")
+def real_rates():
     data = get_all_dolar_rates()
     now = datetime.now().strftime('%Y-%m-%d %H:%M')
     full_date = get_full_date()
 
     try:
+        # 1️⃣ Cargar la referencia del inicio del día
         initial_rates = load_initial_rates()  # si no existe, se crea con los valores actuales
         if not initial_rates:
             initial_rates = data
             save_initial_rates(initial_rates)
 
+        # 2️⃣ Preparar los datos con referencia al inicio del día
         prepared = prepare_data(data, initial_dict=initial_rates)
 
+        # 3️⃣ Guardar última cotización intradía (last_rates)
         save_last_rates(data)
 
     except Exception as e:
-        return HTMLResponse(f"⚠️ Error obteniendo cotizaciones: {e}", status_code=500)
+        return f"⚠️ Error obteniendo cotizaciones: {e}"
 
-    return templates.TemplateResponse(
+    return render_template(
         "dolar_table.html",
-        {"request": request, "title": "Cotizaciones Reales", "now": now, "full_date": full_date, "data": prepared}
+        title="Cotizaciones Reales",
+        now=now,
+        full_date=full_date,
+        data=prepared
     )
+
+# ----------------- Run -----------------
+if __name__ == "__main__":
+    app.run(debug=True)

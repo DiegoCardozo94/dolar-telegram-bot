@@ -1,3 +1,4 @@
+from zoneinfo import ZoneInfo
 from apscheduler.schedulers.background import BackgroundScheduler
 from datetime import datetime
 import os, json, requests, pandas as pd
@@ -92,19 +93,30 @@ def insertar_cotizacion_supabase(dolar_name, compra, venta, diff_compra, diff_ve
 # ---------------- Lógica principal ----------------
 def check_and_save_dolar():
     global last_rates, market_open_sent, market_close_sent
-    now = datetime.now()
 
-    # Apertura/Cierre
+    # Usar hora local de Argentina
+    now = datetime.now(ZoneInfo("America/Argentina/Buenos_Aires"))
+
+    # 🔁 Reiniciar banderas cada nuevo día antes de las 10:00
+    if now.hour < 10:
+        market_open_sent = False
+        market_close_sent = False
+
+    # 🏦 Apertura
     if now.hour == 10 and not market_open_sent:
         safe_send_message("🏦 ¡El mercado abrió! Comenzando monitoreo de cotizaciones...")
         market_open_sent = True
+
+    # 🏛️ Cierre
     if now.hour == 17 and not market_close_sent:
         safe_send_message("🏛️ ¡El mercado cerró! Monitoreo finalizado por hoy.")
         market_close_sent = True
+
+    # ⏸️ Si el mercado no está abierto, salir
     if not (10 <= now.hour < 17):
         return
 
-    # Fetch de cotizaciones
+    # 💰 Fetch de cotizaciones
     try:
         data = fetch_dolar_rates()
         rates = data.get("rates", {})
@@ -115,7 +127,7 @@ def check_and_save_dolar():
 
     messages = []
 
-    # Guardado histórico CSV y revisión de cambios
+    # 📈 Guardado histórico y comparación
     os.makedirs(os.path.dirname(HISTORY_CSV_FILE), exist_ok=True)
     file_exists = os.path.isfile(HISTORY_CSV_FILE)
     csv_rows = []
@@ -136,7 +148,6 @@ def check_and_save_dolar():
         pct_compra = round((diff_compra / last_compra) * 100, 2) if last_compra else 0
         pct_venta = round((diff_venta / last_venta) * 100, 2) if last_venta else 0
 
-        # CSV histórico
         csv_rows.append({
             "timestamp": timestamp,
             "dolar_name": name,
@@ -146,7 +157,6 @@ def check_and_save_dolar():
             "diff_venta": diff_venta
         })
 
-        # Guardar en Supabase/JSON solo si hay cambios significativos
         if abs(diff_compra) >= MIN_CHANGE_THRESHOLD or abs(diff_venta) >= MIN_CHANGE_THRESHOLD:
             msg = (
                 f"{name.title()}\n"
@@ -160,15 +170,15 @@ def check_and_save_dolar():
 
         last_rates[name] = {"compra": compra, "venta": venta}
 
-    # Guardar CSV histórico
+    # 🧾 Guardar CSV histórico
     if csv_rows:
         df = pd.DataFrame(csv_rows)
         df.to_csv(HISTORY_CSV_FILE, mode='a', header=not file_exists, index=False)
 
-    # Guardar últimos rates en JSON
+    # 💾 Guardar últimos rates en JSON
     save_json(DATA_FILE, last_rates)
 
-    # Enviar mensaje Telegram si hubo cambios
+    # 📲 Enviar mensaje si hubo cambios
     if messages:
         safe_send_message("\n\n".join(messages))
 

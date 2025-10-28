@@ -2,6 +2,8 @@ from fastapi import FastAPI, Request
 from contextlib import asynccontextmanager
 import requests
 from utils.telegram_client import TOKEN
+import uvicorn
+from app import app  
 from services.dolar_services import (
     fetch_dolar_rates,
     format_message,
@@ -95,3 +97,12 @@ async def telegram_webhook(request: Request):
     except Exception as e:
         print("ERROR EN WEBHOOK:", e)
         return {"ok": False, "error": str(e)}
+    
+if __name__ == "__main__":
+    # Ejecuta el servidor
+    uvicorn.run(
+        "app:app",           # Módulo y variable FastAPI
+        host="0.0.0.0",      # Escucha en todas las interfaces (útil en Docker o producción)
+        port=8000,
+        reload=True          # Recarga automática en desarrollo
+    )

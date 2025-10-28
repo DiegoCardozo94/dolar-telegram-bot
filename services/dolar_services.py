@@ -72,7 +72,7 @@ def fetch_dolar_rates():
         resp.raise_for_status()
         data = resp.json()
         rates, last_update = {}, None
-
+        
         for item in data:
             nombre = item["nombre"].lower()
             compra, venta = item.get("compra"), item.get("venta")
@@ -95,12 +95,17 @@ def fetch_dolar_rates():
 
         fecha_str = last_update.astimezone().strftime("%d/%m/%Y %H:%M") if last_update else "desconocida"
 
+        # 🚨 Cargar primero los últimos valores guardados
         last_rates = load_last_rates()
-        for tipo, data in rates.items():
-            diff_compra, diff_venta, pct_compra, pct_venta = compute_diff(data, last_rates.get(tipo, {}))
-            guardar_cotizacion(tipo, data["compra"], data["venta"], diff_compra, diff_venta, pct_compra, pct_venta)
 
+        # Calcular diferencias y guardar en storage
+        for tipo, data_item in rates.items():
+            diff_compra, diff_venta, pct_compra, pct_venta = compute_diff(data_item, last_rates.get(tipo, {}))
+            guardar_cotizacion(tipo, data_item["compra"], data_item["venta"], diff_compra, diff_venta, pct_compra, pct_venta)
+
+        # ✅ Solo después de todo, actualizar los last_rates
         save_last_rates(rates)
+
         return {"rates": rates, "updated_at": fecha_str}
 
     except Exception as e:
