@@ -2,11 +2,13 @@ from fastapi import FastAPI, Request
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse
 from datetime import datetime
+from zoneinfo import ZoneInfo
 import random
-import locale
+
+def now_argentina():
+    return datetime.now(ZoneInfo("America/Argentina/Buenos_Aires"))
 
 from services.dolar_services import (
-    load_last_rates,
     get_all_dolar_rates,
     save_last_rates,
     load_initial_rates,
@@ -69,18 +71,16 @@ def prepare_data(data_dict, initial_dict=None):
         }
     return prepared
 
-# Configuramos locale a español (funciona en sistemas donde está disponible)
-try:
-    locale.setlocale(locale.LC_TIME, "es_ES.UTF-8")
-except locale.Error:
-    # Windows o sistemas sin locale instalado
-    locale.setlocale(locale.LC_TIME, "Spanish_Spain")
-
 def get_full_date():
+    dias = ["lunes", "martes", "miércoles", "jueves", "viernes", "sábado", "domingo"]
+    meses = [
+        "enero", "febrero", "marzo", "abril", "mayo", "junio",
+        "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"
+    ]
     now = datetime.now()
-    day_name = now.strftime("%A").capitalize()
+    day_name = dias[now.weekday()].capitalize()  # weekday() devuelve 0=lunes
     day_num = now.day
-    month_name = now.strftime("%B").capitalize()
+    month_name = meses[now.month - 1].capitalize()  # month empieza en 1
     return f"Cotización del dólar hoy {day_name} {day_num} de {month_name}"
 
 # ----------------- Routes -----------------
