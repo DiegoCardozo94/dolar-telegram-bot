@@ -1,28 +1,28 @@
 {
     "oficial": {
-        "compra": 1410,
-        "venta": 1460,
-        "promedio": 1435.0
+        "compra": 1445,
+        "venta": 1495,
+        "promedio": 1470.0
     },
     "blue": {
-        "compra": 1445,
-        "venta": 1465,
-        "promedio": 1455.0
+        "compra": 1450,
+        "venta": 1470,
+        "promedio": 1460.0
     },
     "mep": {
-        "compra": 1436.1,
-        "venta": 1449.3,
-        "promedio": 1442.6999999999998
+        "compra": 1476.4,
+        "venta": 1481.3,
+        "promedio": 1478.85
     },
     "ccl": {
-        "compra": 1455.2,
-        "venta": 1461.5,
-        "promedio": 1458.35
+        "compra": 1491.3,
+        "venta": 1491.9,
+        "promedio": 1491.6
     },
     "mayorista": {
-        "compra": 1426,
-        "venta": 1435,
-        "promedio": 1430.5
+        "compra": 1461,
+        "venta": 1470,
+        "promedio": 1465.5
     },
     "cripto": {
         "compra": 1514,
@@ -30,8 +30,8 @@
         "promedio": 1517.0
     },
     "tarjeta": {
-        "compra": 1833,
-        "venta": 1898,
-        "promedio": 1865.5
+        "compra": 1878.5,
+        "venta": 1943.5,
+        "promedio": 1911.0
     }
 }
