@@ -7,20 +7,17 @@ from services.dolar_services import (
     format_message,
     load_last_rates,
     save_last_rates,
-    log_rates
+    get_all_dolar_rates
 )
-from scheduler import start_scheduler  # tu scheduler
-from routes.dolar import router as dolar_router  # rutas /dolar
+from scheduler import start_scheduler
+from routes.dolar import router as dolar_router
 
 app = FastAPI(title="Dólar Telegram Bot API")
-
-# ⚙️ Incluir router de rutas de dólar
 app.include_router(dolar_router)
 
-# URL base de Telegram
 BASE_URL = f"https://api.telegram.org/bot{TOKEN}"
 
-# 🕓 Ciclo de vida: iniciar scheduler al arrancar
+# ---------------- Scheduler ----------------
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     print("🚀 Iniciando bot y scheduler...")
@@ -30,22 +27,32 @@ async def lifespan(app: FastAPI):
 
 app.router.lifespan_context = lifespan
 
+# ---------------- Health ----------------
 @app.get("/health")
 async def health():
     return {"status": "ok"}
 
-# ---------------- Webhook Telegram ----------------
+# ---------------- Parse tipo ----------------
+def parse_tipo(text: str) -> str | None:
+    mapping = {
+        "oficial":"oficial","blue":"blue","mep":"mep","bolsa":"mep",
+        "ccl":"ccl","tarjeta":"tarjeta","cripto":"cripto","mayorista":"mayorista"
+    }
+    for k,v in mapping.items():
+        if k in text:
+            return v
+    return None
+
+# ---------------- Webhook ----------------
 @app.post("/webhook")
 async def telegram_webhook(request: Request):
     try:
         data = await request.json()
         if "message" not in data:
             return {"ok": True}
-
         chat_id = data["message"]["chat"]["id"]
         text = data["message"].get("text", "").lower().strip()
 
-        # Mensaje de bienvenida / ayuda
         if text in ["/start", "/help", "hola", "buenas"]:
             help_msg = (
                 "👋 ¡Bienvenido al bot del Dólar Argentina! 🇦🇷\n\n"
@@ -59,54 +66,30 @@ async def telegram_webhook(request: Request):
                 "/dolar_cripto - cripto\n"
                 "/dolar_mayorista - mayorista"
             )
-            requests.post(
-                f"{BASE_URL}/sendMessage",
-                data={"chat_id": chat_id, "text": help_msg, "parse_mode": "HTML"},
-            )
+            try:
+                requests.post(f"{BASE_URL}/sendMessage", data={"chat_id": chat_id, "text": help_msg, "parse_mode": "HTML"})
+            except Exception as e:
+                print("Error enviando mensaje a Telegram:", e)
             return {"ok": True}
 
-        # ✅ Comando /dolar y variantes
         if text.startswith("/dolar"):
             rates_data = fetch_dolar_rates()
-            tipo = None
-            if "blue" in text:
-                tipo = "blue"
-            elif "oficial" in text:
-                tipo = "oficial"
-            elif "mep" in text or "bolsa" in text:
-                tipo = "mep"
-            elif "ccl" in text:
-                tipo = "ccl"
-            elif "tarjeta" in text:
-                tipo = "tarjeta"
-            elif "cripto" in text:
-                tipo = "cripto"
-            elif "mayorista" in text:
-                tipo = "mayorista"
-
-            # Cargar última cotización para calcular variación
+            tipo = parse_tipo(text)
             last_rates = load_last_rates()
             msg = format_message(rates_data, last_rates, tipo)
-            # Guardar cotización actual como "last_rates"
             save_last_rates(rates_data.get("rates", {}))
-            # Guardar historial en CSV
-            log_rates(rates_data.get("rates", {}))
-
-            requests.post(
-                f"{BASE_URL}/sendMessage",
-                data={"chat_id": chat_id, "text": msg, "parse_mode": "HTML"},
-            )
+            try:
+                requests.post(f"{BASE_URL}/sendMessage", data={"chat_id": chat_id, "text": msg, "parse_mode": "HTML"})
+            except Exception as e:
+                print("Error enviando mensaje a Telegram:", e)
             return {"ok": True}
 
-        # Mensaje por defecto si no reconoce el comando
-        requests.post(
-            f"{BASE_URL}/sendMessage",
-            data={
-                "chat_id": chat_id,
-                "text": "No entendí ese comando. Escribí /dolar para ver las opciones 💬",
-                "parse_mode": "HTML",
-            },
-        )
+        # Default
+        default_msg = "No entendí ese comando. Escribí /dolar para ver las opciones 💬"
+        try:
+            requests.post(f"{BASE_URL}/sendMessage", data={"chat_id": chat_id, "text": default_msg, "parse_mode": "HTML"})
+        except Exception as e:
+            print("Error enviando mensaje a Telegram:", e)
         return {"ok": True}
 
     except Exception as e:

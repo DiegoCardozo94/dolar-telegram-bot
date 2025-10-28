@@ -1,0 +1,30 @@
+{
+    "oficial": {
+        "compra": 1400,
+        "venta": 1460
+    },
+    "blue": {
+        "compra": 1445,
+        "venta": 1465
+    },
+    "mep": {
+        "compra": 1443.6,
+        "venta": 1453.3
+    },
+    "ccl": {
+        "compra": 1474.3,
+        "venta": 1455
+    },
+    "mayorista": {
+        "compra": 1426,
+        "venta": 1435
+    },
+    "cripto": {
+        "compra": 1514,
+        "venta": 1520
+    },
+    "tarjeta": {
+        "compra": 1833,
+        "venta": 1898
+    }
+}

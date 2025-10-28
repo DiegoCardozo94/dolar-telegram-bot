@@ -92,6 +92,8 @@ def get_full_date():
     return f"Cotización del dólar hoy {day_name} {day_num} de {month_name}"
 
 # En tu función Flask, haces algo así:
+from services.dolar_services import load_initial_rates, save_initial_rates
+
 @app.route("/real")
 def real_rates():
     data = get_all_dolar_rates()
@@ -99,13 +101,29 @@ def real_rates():
     full_date = get_full_date()
 
     try:
-        last_rates = load_last_rates()
-        prepared = prepare_data(data, last_rates)
+        # 1️⃣ Cargar la referencia del inicio del día
+        initial_rates = load_initial_rates()  # si no existe, se crea con los valores actuales
+        if not initial_rates:
+            initial_rates = data
+            save_initial_rates(initial_rates)
+
+        # 2️⃣ Preparar los datos con referencia al inicio del día
+        prepared = prepare_data(data, initial_dict=initial_rates)
+
+        # 3️⃣ Guardar última cotización intradía (last_rates)
         save_last_rates(data)
+
     except Exception as e:
         return f"⚠️ Error obteniendo cotizaciones: {e}"
 
-    return render_template("dolar_table.html", title="Cotizaciones Reales", now=now, full_date=full_date, data=prepared)
+    return render_template(
+        "dolar_table.html",
+        title="Cotizaciones Reales",
+        now=now,
+        full_date=full_date,
+        data=prepared
+    )
+
 # ----------------- Run -----------------
 if __name__ == "__main__":
     app.run(debug=True)
