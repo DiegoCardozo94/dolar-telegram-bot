@@ -16,8 +16,8 @@ MIN_CHANGE_THRESHOLD = 0.5
 
 DOLAR_TYPES = ["oficial", "blue", "mep", "ccl", "tarjeta", "cripto", "mayorista"]
 
-SUPABASE_URL = os.get.env("SUPABASE_URL")
-SUPABASE_API_KEY = os.get.env("SUPABASE_API_KEY")
+SUPABASE_URL = os.getenv("SUPABASE_URL")
+SUPABASE_API_KEY = os.getenv("SUPABASE_API_KEY")
 
 headers = {
     "apikey": SUPABASE_API_KEY,
