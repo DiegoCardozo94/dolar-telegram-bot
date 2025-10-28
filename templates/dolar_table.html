@@ -104,6 +104,22 @@
         {% for name, rates in data.items() %}
         <div class="card">
             <h3>Dólar {{ name.capitalize() }}</h3>
+                                    
+            <div class="rate-row">
+                <span class="label">APERTURA COMPRA</span>
+                <span class="value">
+                    <span class="emoji">{{ rates.apertura_emoji_compra }}</span>
+                    ${{ rates.apertura_compra }}
+                </span>
+            </div>
+
+            <div class="rate-row">
+                <span class="label">APERTURA VENTA</span>
+                <span class="value">
+                    <span class="emoji">{{ rates.apertura_emoji_venta }}</span>
+                    ${{ rates.apertura_venta }}
+                </span>
+            </div>
 
             <div class="rate-row">
                 <span class="label">COMPRA</span>
