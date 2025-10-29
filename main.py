@@ -1,23 +1,33 @@
 # main.py
+
 from fastapi import FastAPI, Request, APIRouter
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse
 from contextlib import asynccontextmanager
-from datetime import datetime
+from datetime import datetime, date
 from zoneinfo import ZoneInfo
 import random
 import requests
-from utils.telegram_client import TOKEN
+import json # Necesario si necesitas manejar JSON
+
+# --- Imports Refactorizados ---
+from utils.telegram_client import TOKEN # Asumiendo que esta es la ruta correcta
+from utils.file_helpers import load_json, save_json # Usamos los helpers de utils
+
+# Servicios
 from services.dolar_services import (
     fetch_dolar_rates,
     format_message,
-    load_last_rates,
-    save_last_rates,
     get_all_dolar_rates,
-    load_initial_rates,
-    save_initial_rates
 )
-from scheduler import start_scheduler
+
+# Storage (persistencia)
+from storage.initial_rates import ( # <--- Nuevo módulo
+    load_initial_rates,
+    save_initial_rates_by_day
+)
+from scheduler.constants import DATA_FILE # <--- Importamos la constante de la ruta del archivo
+from scheduler.main_scheduler import start_scheduler, stop_scheduler # <--- Importamos las funciones del scheduler
 
 # ---------------- Config ----------------
 BASE_URL = f"https://api.telegram.org/bot{TOKEN}"
@@ -28,57 +38,11 @@ app = FastAPI(title="Dólar Argentina Bot + Web")
 # ---------------- Templates ----------------
 templates = Jinja2Templates(directory="templates")
 
-# ---------------- Helpers ----------------
+# ---------------- Helpers (Funciones reutilizables que son web/bot-agnósticas) ----------------
+# NOTE: now_argentina, get_full_date, y parse_tipo son helpers OK para main.py
+
 def now_argentina():
     return datetime.now(ZoneInfo("America/Argentina/Buenos_Aires"))
-
-def emoji(diff):
-    if diff > 0:
-        return "🟢"
-    elif diff < 0:
-        return "🔴"
-    else:
-        return "🟡"
-
-initial_rates_mock = {
-    "oficial": 350,
-    "blue": 650,
-    "mep": 630,
-    "ccl": 640,
-    "tarjeta": 580,
-    "cripto": 600,
-    "mayorista": 345
-}
-
-def prepare_data(data_dict, initial_dict=None):
-    prepared = {}
-    for name, rates in data_dict.items():
-        compra = float(rates.get("compra", rates)) if isinstance(rates, dict) else float(rates)
-        venta = float(rates.get("venta", rates)) if isinstance(rates, dict) else float(rates)
-
-        # 🔹 Apertura segura: si no existe, toma el valor actual
-        apertura_compra = float(initial_dict.get(name, {}).get("compra", compra)) if initial_dict else compra
-        apertura_venta = float(initial_dict.get(name, {}).get("venta", venta)) if initial_dict else venta
-
-        diff_compra = compra - apertura_compra
-        diff_venta = venta - apertura_venta
-        pct_compra = f"{(diff_compra / apertura_compra * 100):+.2f}%" if apertura_compra else "+0.00%"
-        pct_venta = f"{(diff_venta / apertura_venta * 100):+.2f}%" if apertura_venta else "+0.00%"
-
-        prepared[name] = {
-            "compra": f"{compra:.2f}",
-            "venta": f"{venta:.2f}",
-            "apertura_compra": f"{apertura_compra:.2f}",
-            "apertura_venta": f"{apertura_venta:.2f}",
-            "apertura_emoji_compra": "🟢" if diff_compra>0 else "🔴" if diff_compra<0 else "🟡",
-            "apertura_emoji_venta": "🟢" if diff_venta>0 else "🔴" if diff_venta<0 else "🟡",
-            "emoji_compra": "🟢" if diff_compra>0 else "🔴" if diff_compra<0 else "🟡",
-            "emoji_venta": "🟢" if diff_venta>0 else "🔴" if diff_venta<0 else "🟡",
-            "pct_compra": pct_compra,
-            "pct_venta": pct_venta
-        }
-
-    return prepared
 
 def get_full_date():
     dias = ["lunes", "martes", "miércoles", "jueves", "viernes", "sábado", "domingo"]
@@ -102,6 +66,45 @@ def parse_tipo(text: str) -> str | None:
             return v
     return None
 
+# NOTE: La función prepare_data contiene lógica de cálculo que, en una refactorización ideal,
+# debería estar cerca de compute_diff en services/dolar_services.py. 
+# La dejamos aquí por ser exclusiva del renderizado HTML.
+
+def prepare_data(data_dict, initial_dict=None):
+    # ... (Se mantiene el cuerpo de esta función sin cambios) ...
+    prepared = {}
+    for name, rates in data_dict.items():
+        compra = float(rates.get("compra", rates)) if isinstance(rates, dict) else float(rates)
+        venta = float(rates.get("venta", rates)) if isinstance(rates, dict) else float(rates)
+
+        # 🔹 Apertura segura: si no existe, toma el valor actual
+        apertura_compra = float(initial_dict.get(name, {}).get("compra", compra)) if initial_dict else compra
+        apertura_venta = float(initial_dict.get(name, {}).get("venta", venta)) if initial_dict else venta
+
+        diff_compra = compra - apertura_compra
+        diff_venta = venta - apertura_venta
+        pct_compra = f"{(diff_compra / apertura_compra * 100):+.2f}%" if apertura_compra else "+0.00%"
+        pct_venta = f"{(diff_venta / apertura_venta * 100):+.2f}%" if apertura_venta else "+0.00%"
+
+        # NOTE: El emoji helper sigue en el main, pero se recomienda usar utils/formatters.emoji
+        emoji_compra = "🟢" if diff_compra>0 else "🔴" if diff_compra<0 else "🟡"
+        emoji_venta = "🟢" if diff_venta>0 else "🔴" if diff_venta<0 else "🟡"
+
+        prepared[name] = {
+            "compra": f"{compra:.2f}",
+            "venta": f"{venta:.2f}",
+            "apertura_compra": f"{apertura_compra:.2f}",
+            "apertura_venta": f"{apertura_venta:.2f}",
+            "apertura_emoji_compra": emoji_compra,
+            "apertura_emoji_venta": emoji_venta,
+            "emoji_compra": emoji_compra,
+            "emoji_venta": emoji_venta,
+            "pct_compra": pct_compra,
+            "pct_venta": pct_venta
+        }
+    return prepared
+
+
 # ---------------- Routers ----------------
 web_router = APIRouter()
 bot_router = APIRouter()
@@ -109,6 +112,12 @@ bot_router = APIRouter()
 # ----------- Web routes -----------
 @web_router.get("/mock", response_class=HTMLResponse)
 async def mock_rates(request: Request):
+    # NOTE: initial_rates_mock (global variable) se mantiene aquí
+    initial_rates_mock = {
+        "oficial": 350, "blue": 650, "mep": 630, "ccl": 640, "tarjeta": 580,
+        "cripto": 600, "mayorista": 345
+    }
+    
     now = now_argentina().strftime('%Y-%m-%d %H:%M:%S')
     full_date = get_full_date()
     data = {}
@@ -134,25 +143,24 @@ async def real_rates(request: Request):
     full_date = get_full_date()
 
     try:
-        from datetime import date
         today_str = date.today().isoformat()  # 'YYYY-MM-DD'
 
-        # Cargar todas las aperturas históricas
-        all_initials = load_initial_rates()  # carga un dict: {"2025-10-28": {...}, ...}
+        # Cargar todas las aperturas históricas usando el nuevo storage/initial_rates.py
+        all_initials = load_initial_rates() 
 
         # Guardar la apertura solo si no existe la del día actual
-        if today_str not in all_initials:
-            all_initials[today_str] = data
-            save_initial_rates(all_initials)
+        # save_initial_rates_by_day maneja la lógica de NO sobreescribir.
+        save_initial_rates_by_day(data) 
 
         # Usar la apertura del día para los cálculos
         initial_rates_today = all_initials.get(today_str, data)
         prepared = prepare_data(data, initial_dict=initial_rates_today)
 
-        # Actualizar últimos valores
-        save_last_rates(data)
+        # 💾 Actualizar últimos valores (Usamos load_json/save_json de utils)
+        save_json(DATA_FILE, data) 
 
     except Exception as e:
+        # Se recomienda usar el logger de utils/file_helpers.py aquí
         return HTMLResponse(f"⚠️ Error obteniendo cotizaciones: {e}", status_code=500)
 
     return templates.TemplateResponse(
@@ -170,6 +178,7 @@ async def telegram_webhook(request: Request):
         chat_id = data["message"]["chat"]["id"]
         text = data["message"].get("text", "").lower().strip()
 
+        # 1. Manejo de /start, /help, etc. (se mantiene sin cambios)
         if text in ["/start", "/help", "hola", "buenas"]:
             help_msg = (
                 "👋 ¡Bienvenido al bot del Dólar Argentina! 🇦🇷\n\n"
@@ -189,24 +198,35 @@ async def telegram_webhook(request: Request):
                 print("Error enviando mensaje a Telegram:", e)
             return {"ok": True}
 
+        # 2. Manejo de /dolar (se actualiza el guardado de last_rates)
         if text.startswith("/dolar"):
             rates_data = fetch_dolar_rates()
             tipo = parse_tipo(text)
-            last_rates = load_last_rates()
+            
+            # Cargar last_rates usando los helpers de utils/file_helpers.py
+            last_rates = load_json(DATA_FILE) 
+            
             msg = format_message(rates_data, last_rates, tipo)
-            save_last_rates(rates_data.get("rates", {}))
+            
+            # Guardar last_rates usando los helpers de utils/file_helpers.py
+            save_json(DATA_FILE, rates_data.get("rates", {})) 
+            
             try:
+                # Usar safe_send_message de utils/telegram_helpers.py sería ideal aquí, 
+                # pero mantenemos requests.post por si la integración es más compleja.
                 requests.post(f"{BASE_URL}/sendMessage", data={"chat_id": chat_id, "text": msg, "parse_mode": "HTML"})
             except Exception as e:
                 print("Error enviando mensaje a Telegram:", e)
             return {"ok": True}
 
+        # 3. Respuesta por defecto
         default_msg = "No entendí ese comando. Escribí /dolar para ver las opciones 💬"
         try:
             requests.post(f"{BASE_URL}/sendMessage", data={"chat_id": chat_id, "text": default_msg, "parse_mode": "HTML"})
         except Exception as e:
             print("Error enviando mensaje a Telegram:", e)
         return {"ok": True}
+        
     except Exception as e:
         print("ERROR EN WEBHOOK:", e)
         return {"ok": False, "error": str(e)}
@@ -218,6 +238,7 @@ async def lifespan(app: FastAPI):
     start_scheduler()
     yield
     print("🛑 Apagando bot...")
+    stop_scheduler() # <--- Aseguramos que el scheduler se detenga limpiamente
 
 app.router.lifespan_context = lifespan
 

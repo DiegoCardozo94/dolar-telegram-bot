@@ -5,8 +5,9 @@ import os
 # --- Configuración de Archivos ---
 DATA_FILE = "data/last_rates.json"
 HISTORY_CSV_FILE = "data/dolar_history.csv"
-HISTORY_JSON_FILE = "data/history.json"  # ¡CONSTANTE AGREGADA!
+HISTORY_JSON_FILE = "data/history.json"
 ERROR_LOG = "logs/errors.log"
+INITIAL_RATES_FILE = "data/initial_rates.json" 
 
 # --- Configuración de Telegram y Supabase ---
 CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")

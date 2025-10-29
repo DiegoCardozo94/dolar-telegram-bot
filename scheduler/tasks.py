@@ -110,7 +110,7 @@ def check_and_save_dolar():
         # Evalúa si hubo cambio significativo para alerta
         if abs(diff_compra) >= MIN_CHANGE_THRESHOLD or abs(diff_venta) >= MIN_CHANGE_THRESHOLD:
             msg = (
-                f"**{name.title()}**\n"
+                f"{name.title()}\n"
                 f"   Compra: {emoji(diff_compra)} ${compra:.2f} ({diff_compra:+.2f}, {pct_compra:+.2f}%)\n"
                 f"   Venta:  {emoji(diff_venta)} ${venta:.2f} ({diff_venta:+.2f}, {pct_venta:+.2f}%)"
             )
