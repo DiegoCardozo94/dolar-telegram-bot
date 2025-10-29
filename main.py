@@ -6,13 +6,12 @@ from fastapi.responses import HTMLResponse
 from contextlib import asynccontextmanager
 from datetime import datetime, date
 from zoneinfo import ZoneInfo
+from fastapi.staticfiles import StaticFiles
 import random
 import requests
-import json # Necesario si necesitas manejar JSON
 
-# --- Imports Refactorizados ---
-from utils.telegram_client import TOKEN # Asumiendo que esta es la ruta correcta
-from utils.file_helpers import load_json, save_json # Usamos los helpers de utils
+from utils.telegram_client import TOKEN
+from utils.file_helpers import load_json, save_json
 
 # Servicios
 from services.dolar_services import (
@@ -22,12 +21,12 @@ from services.dolar_services import (
 )
 
 # Storage (persistencia)
-from storage.initial_rates import ( # <--- Nuevo módulo
+from storage.initial_rates import (
     load_initial_rates,
     save_initial_rates_by_day
 )
-from scheduler.constants import DATA_FILE # <--- Importamos la constante de la ruta del archivo
-from scheduler.main_scheduler import start_scheduler, stop_scheduler # <--- Importamos las funciones del scheduler
+from scheduler.constants import DATA_FILE
+from scheduler.main_scheduler import start_scheduler, stop_scheduler
 
 # ---------------- Config ----------------
 BASE_URL = f"https://api.telegram.org/bot{TOKEN}"
@@ -35,12 +34,13 @@ BASE_URL = f"https://api.telegram.org/bot{TOKEN}"
 # ---------------- FastAPI ----------------
 app = FastAPI(title="Dólar Argentina Bot + Web")
 
+# ---------------- Configurar Estáticos ----------------
+app.mount("/static", StaticFiles(directory="static"), name="static")
+
 # ---------------- Templates ----------------
 templates = Jinja2Templates(directory="templates")
 
 # ---------------- Helpers (Funciones reutilizables que son web/bot-agnósticas) ----------------
-# NOTE: now_argentina, get_full_date, y parse_tipo son helpers OK para main.py
-
 def now_argentina():
     return datetime.now(ZoneInfo("America/Argentina/Buenos_Aires"))
 
@@ -66,10 +66,6 @@ def parse_tipo(text: str) -> str | None:
             return v
     return None
 
-# NOTE: La función prepare_data contiene lógica de cálculo que, en una refactorización ideal,
-# debería estar cerca de compute_diff en services/dolar_services.py. 
-# La dejamos aquí por ser exclusiva del renderizado HTML.
-
 def prepare_data(data_dict, initial_dict=None):
     # ... (Se mantiene el cuerpo de esta función sin cambios) ...
     prepared = {}
@@ -86,7 +82,6 @@ def prepare_data(data_dict, initial_dict=None):
         pct_compra = f"{(diff_compra / apertura_compra * 100):+.2f}%" if apertura_compra else "+0.00%"
         pct_venta = f"{(diff_venta / apertura_venta * 100):+.2f}%" if apertura_venta else "+0.00%"
 
-        # NOTE: El emoji helper sigue en el main, pero se recomienda usar utils/formatters.emoji
         emoji_compra = "🟢" if diff_compra>0 else "🔴" if diff_compra<0 else "🟡"
         emoji_venta = "🟢" if diff_venta>0 else "🔴" if diff_venta<0 else "🟡"
 
@@ -104,7 +99,6 @@ def prepare_data(data_dict, initial_dict=None):
         }
     return prepared
 
-
 # ---------------- Routers ----------------
 web_router = APIRouter()
 bot_router = APIRouter()
@@ -112,7 +106,6 @@ bot_router = APIRouter()
 # ----------- Web routes -----------
 @web_router.get("/mock", response_class=HTMLResponse)
 async def mock_rates(request: Request):
-    # NOTE: initial_rates_mock (global variable) se mantiene aquí
     initial_rates_mock = {
         "oficial": 350, "blue": 650, "mep": 630, "ccl": 640, "tarjeta": 580,
         "cripto": 600, "mayorista": 345
@@ -160,7 +153,6 @@ async def real_rates(request: Request):
         save_json(DATA_FILE, data) 
 
     except Exception as e:
-        # Se recomienda usar el logger de utils/file_helpers.py aquí
         return HTMLResponse(f"⚠️ Error obteniendo cotizaciones: {e}", status_code=500)
 
     return templates.TemplateResponse(
@@ -238,7 +230,7 @@ async def lifespan(app: FastAPI):
     start_scheduler()
     yield
     print("🛑 Apagando bot...")
-    stop_scheduler() # <--- Aseguramos que el scheduler se detenga limpiamente
+    stop_scheduler() # Aseguramos que el scheduler se detenga limpiamente
 
 app.router.lifespan_context = lifespan
 
