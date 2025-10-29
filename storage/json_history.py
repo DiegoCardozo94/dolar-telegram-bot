@@ -1,6 +1,6 @@
 # storage/json_history.py
 
-from scheduler.constants import HISTORY_JSON_FILE
+from config.constants import HISTORY_JSON_FILE
 # Importamos las utilidades de archivos ya refactorizadas
 from utils.file_helpers import load_json, save_json
 

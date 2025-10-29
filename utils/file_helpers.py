@@ -3,7 +3,7 @@
 import os
 import json
 from datetime import datetime
-from scheduler.constants import ERROR_LOG
+from config.constants import ERROR_LOG
 
 def ensure_dirs(file_path):
     """Asegura que el directorio del archivo exista."""

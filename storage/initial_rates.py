@@ -1,6 +1,6 @@
 # storage/initial_rates.py
 from utils.file_helpers import load_json, save_json
-from scheduler.constants import INITIAL_RATES_FILE
+from config.constants import INITIAL_RATES_FILE
 from datetime import date
 
 def load_initial_rates():

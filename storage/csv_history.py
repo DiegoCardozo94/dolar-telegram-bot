@@ -2,7 +2,7 @@
 
 import os
 import pandas as pd
-from scheduler.constants import HISTORY_CSV_FILE
+from config.constants import HISTORY_CSV_FILE
 from utils.file_helpers import ensure_dirs, log_error
 
 def append_to_csv(csv_rows):

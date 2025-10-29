@@ -2,9 +2,9 @@
 
 from apscheduler.schedulers.background import BackgroundScheduler
 from .tasks import check_and_save_dolar, send_daily_summary, reset_flags, last_rates
-from .constants import CHECK_INTERVAL_MINUTES
+from config.constants import CHECK_INTERVAL_MINUTES
 from utils.file_helpers import load_json
-from scheduler.constants import DATA_FILE
+from config.constants import DATA_FILE
 
 scheduler = BackgroundScheduler()
 

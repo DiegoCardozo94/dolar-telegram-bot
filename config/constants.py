@@ -1,5 +1,3 @@
-# scheduler/constants.py
-
 import os
 
 # --- Configuración de Archivos ---

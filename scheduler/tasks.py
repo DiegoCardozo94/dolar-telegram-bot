@@ -2,20 +2,17 @@
 
 from zoneinfo import ZoneInfo
 from datetime import datetime
-import os
+
 # Lógica de servicio
 from services.dolar_services import fetch_dolar_rates 
 # Clientes de Storage
 from storage.supabase_client import insertar_cotizacion_supabase
 from storage.csv_history import append_to_csv
-from storage.json_history import append_to_json_history # <--- ¡NUEVO!
-# Utilidades
-from utils.file_helpers import log_error, load_json, save_json
+from storage.json_history import append_to_json_history
+from utils.file_helpers import log_error, save_json
 from utils.telegram_helpers import safe_send_message
 from utils.formatters import emoji
-from .constants import (
-    DATA_FILE, MIN_CHANGE_THRESHOLD
-)
+from config.constants import DATA_FILE, MIN_CHANGE_THRESHOLD
 
 # Variables globales para el estado del scheduler
 last_rates = {}
