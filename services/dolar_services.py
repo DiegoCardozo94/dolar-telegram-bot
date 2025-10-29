@@ -1,87 +1,44 @@
-import requests, os, csv, json
-from datetime import date, datetime
-from services.storage import guardar_cotizacion
+import requests
+from datetime import datetime
 from zoneinfo import ZoneInfo
+from utils.formatters import emoji # Importamos la función emoji ya refactorizada
 
-# ---------------- Config ----------------
+# ---------------- Configuración ----------------
 DOLAR_API = "https://dolarapi.com/v1/dolares"
-HISTORY_FILE = "data/dolar_history.csv"
-LAST_RATES_FILE = "data/last_rates.json"
-INITIAL_RATES_FILE = "data/initial_rates.json"
 
 DOLAR_TYPES = ["oficial", "blue", "mep", "ccl", "tarjeta", "cripto", "mayorista"]
 
-# ---------------- Funciones de persistencia ----------------
-def save_json(file_path, data):
-    os.makedirs(os.path.dirname(file_path), exist_ok=True)
-    try:
-        with open(file_path, "w", encoding="utf-8") as f:
-            json.dump(data, f, ensure_ascii=False, indent=4)
-    except IOError as e:
-        print(f"⚠️ No se pudo guardar {file_path}: {e}")
-
-def load_json(file_path):
-    try:
-        if not os.path.exists(file_path):
-            return {}
-        with open(file_path, "r", encoding="utf-8") as f:
-            content = f.read().strip()
-            return json.loads(content) if content else {}
-    except (json.JSONDecodeError, IOError):
-        return {}
-
-def save_last_rates(rates):
-    save_json(LAST_RATES_FILE, rates)
-
-def load_last_rates():
-    return load_json(LAST_RATES_FILE)
-
-def save_initial_rates(rates):
-    save_json(INITIAL_RATES_FILE, rates)
-
-def load_initial_rates():
-    return load_json(INITIAL_RATES_FILE)
-
-def log_rates_csv(rates):
-    os.makedirs(os.path.dirname(HISTORY_FILE), exist_ok=True)
-    now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    file_exists = os.path.isfile(HISTORY_FILE)
-    try:
-        with open(HISTORY_FILE, "a", newline="", encoding="utf-8") as f:
-            writer = csv.writer(f)
-            if not file_exists:
-                writer.writerow(["timestamp"] + DOLAR_TYPES)
-            row = [now] + [rates.get(tipo, {}).get("venta", "") for tipo in DOLAR_TYPES]
-            writer.writerow(row)
-    except IOError as e:
-        print(f"⚠️ No se pudo registrar en el CSV: {e}")
-
-# ---------------- Funciones de cálculo ----------------
+# ---------------- Funciones de cálculo (Se mantienen) ----------------
 def compute_diff(data, last):
-    last_compra = last.get("compra", 0)
-    last_venta = last.get("venta", 0)
+    """Calcula la diferencia absoluta y porcentual entre cotizaciones."""
+    
+    # Manejo de casos donde no hay cotización previa
+    last_compra = last.get("compra", data["compra"]) # Si no hay última, se usa la actual para diff 0
+    last_venta = last.get("venta", data["venta"])
+    
     diff_compra = data["compra"] - last_compra
     diff_venta = data["venta"] - last_venta
+    
+    # Evita la división por cero si la última cotización es 0
     pct_compra = round((diff_compra / last_compra) * 100, 2) if last_compra else 0
     pct_venta = round((diff_venta / last_venta) * 100, 2) if last_venta else 0
+    
     return diff_compra, diff_venta, pct_compra, pct_venta
-
-# ---------------- Función para guardar apertura diaria ----------------
-def save_initial_rates_by_day(rates):
-    """
-    Guarda la cotización inicial del día bajo YYYY-MM-DD.
-    Si ya existe para hoy, no sobreescribe.
-    """
-    today_str = date.today().isoformat()  # '2025-10-28'
-    all_initials = load_initial_rates()   # carga historial previo
-
-    if today_str not in all_initials:
-        all_initials[today_str] = rates
-        save_json(INITIAL_RATES_FILE, all_initials)
 
 # ---------------- Función principal para traer cotizaciones ----------------
 def fetch_dolar_rates():
+    """
+    Obtiene las cotizaciones de la API externa, las parsea y calcula
+    la fecha de actualización.
+    
+    Retorna:
+    {
+        "rates": { "blue": {...}, "oficial": {...} }, 
+        "updated_at": "..."
+    }
+    """
     try:
+        # Petición a la API
         resp = requests.get(DOLAR_API, timeout=10)
         resp.raise_for_status()
         data = resp.json()
@@ -91,46 +48,48 @@ def fetch_dolar_rates():
         for item in data:
             nombre = item["nombre"].lower()
             compra, venta = item.get("compra"), item.get("venta")
+            
             if compra is None or venta is None:
                 continue
+            
             promedio = (compra + venta) / 2
             fecha = item.get("fechaActualizacion")
+            
+            # Determina la última fecha de actualización de todas las cotizaciones
             if fecha:
                 dt = datetime.fromisoformat(fecha.replace("Z", "+00:00"))
                 if not last_update or dt > last_update:
                     last_update = dt
 
             # Mapear nombres a tus tipos
-            if "oficial" in nombre: rates["oficial"] = {"compra": compra, "venta": venta, "promedio": promedio}
-            elif "blue" in nombre: rates["blue"] = {"compra": compra, "venta": venta, "promedio": promedio}
-            elif "bolsa" in nombre or "mep" in nombre: rates["mep"] = {"compra": compra, "venta": venta, "promedio": promedio}
-            elif "contado con liqui" in nombre or "ccl" in nombre: rates["ccl"] = {"compra": compra, "venta": venta, "promedio": promedio}
-            elif "tarjeta" in nombre: rates["tarjeta"] = {"compra": compra, "venta": venta, "promedio": promedio}
-            elif "cripto" in nombre: rates["cripto"] = {"compra": compra, "venta": venta, "promedio": promedio}
-            elif "mayorista" in nombre: rates["mayorista"] = {"compra": compra, "venta": venta, "promedio": promedio}
+            rate_data = {"compra": compra, "venta": venta, "promedio": promedio}
+            if "oficial" in nombre: rates["oficial"] = rate_data
+            elif "blue" in nombre: rates["blue"] = rate_data
+            elif "bolsa" in nombre or "mep" in nombre: rates["mep"] = rate_data
+            elif "contado con liqui" in nombre or "ccl" in nombre: rates["ccl"] = rate_data
+            elif "tarjeta" in nombre: rates["tarjeta"] = rate_data
+            elif "cripto" in nombre: rates["cripto"] = rate_data
+            elif "mayorista" in nombre: rates["mayorista"] = rate_data
+            # NOTA: La lógica de guardar diferencias y rates YA NO VA AQUÍ.
 
-        # Convertir fecha a hora Argentina
+        # Convertir fecha a hora Argentina para el reporte
         argentina_tz = ZoneInfo("America/Argentina/Buenos_Aires")
         fecha_str = last_update.astimezone(argentina_tz).strftime("%d/%m/%Y %H:%M") if last_update else "desconocida"
-
-        # ---------------- Actualización de diferencias ----------------
-        last_rates = load_last_rates()
-        for tipo, data_item in rates.items():
-            diff_compra, diff_venta, pct_compra, pct_venta = compute_diff(data_item, last_rates.get(tipo, {}))
-            guardar_cotizacion(tipo, data_item["compra"], data_item["venta"], diff_compra, diff_venta, pct_compra, pct_venta)
-
-        # ---------------- Guardar últimos rates ----------------
-        save_last_rates(rates)
-
-        # ---------------- Guardar apertura diaria ----------------
-        save_initial_rates_by_day(rates)
 
         return {"rates": rates, "updated_at": fecha_str}
 
     except Exception as e:
-        return {"error": f"No se pudo obtener la cotización ({e})"}
-# ---------------- Formateo de mensajes ----------------
+        # Usamos la función de logging o simplemente retornamos el error
+        from utils.file_helpers import log_error # Importación local para evitar dependencia circular
+        log_error(f"Error obteniendo cotizaciones de la API: {e}")
+        return {"error": f"No se pudo obtener la cotización ({e})", "rates": {}}
+
+# ---------------- Formateo de mensajes (Se mantiene pero simplificado) ----------------
 def format_message(result, last_rates, tipo=None):
+    """
+    Formatea las cotizaciones para un mensaje de Telegram.
+    NOTA: Las funciones de formato más complejas deben idealmente ir en un módulo 'formatters'.
+    """
     if "error" in result:
         return result["error"]
 
@@ -147,18 +106,19 @@ def format_message(result, last_rates, tipo=None):
         "mayorista":"🏛️"
     }
 
-    def emoji(diff):
-        return "🟢" if diff > 0 else "🔴" if diff < 0 else "🟡"
-
     def format_rate(name):
         data = rates.get(name, {"compra": 0, "venta": 0})
         last = last_rates.get(name, {"compra": 0, "venta": 0})
+        
+        # Usa la función compute_diff de este mismo módulo
         diff_compra, diff_venta, pct_compra, pct_venta = compute_diff(data, last)
+        
         e = emojis_dict.get(name, "💰")
+        
         return (
             f"{e} *{name.capitalize()}*\n"
-            f"   Compra: {emoji(diff_compra)} ${data['compra']:.2f} ({diff_compra:+.2f}, {pct_compra:+.2f}%)\n"
-            f"   Venta:  {emoji(diff_venta)} ${data['venta']:.2f} ({diff_venta:+.2f}, {pct_venta:+.2f}%)\n"
+            f"   Compra: {emoji(diff_compra)} ${data['compra']:.2f} ({diff_compra:+.2f}, {pct_compra:+.2f}%)\n"
+            f"   Venta:  {emoji(diff_venta)} ${data['venta']:.2f} ({diff_venta:+.2f}, {pct_venta:+.2f}%)"
         )
 
     if tipo:
@@ -170,16 +130,11 @@ def format_message(result, last_rates, tipo=None):
 
     # Mostrar todos los tipos
     msg = "\n".join([format_rate(name) for name in DOLAR_TYPES])
-    msg += f"\n🕒 Última actualización: {updated_at}"
+    msg += f"\n\n🕒 Última actualización: {updated_at}"
     return msg
 
 # ---------------- Funciones de uso general ----------------
 def get_all_dolar_rates():
+    """Función wrapper simple para obtener solo las rates."""
     result = fetch_dolar_rates()
     return result.get("rates", {})
-
-def save_changes(rates, last_rates):
-    for tipo, data in rates.items():
-        diff_compra, diff_venta, pct_compra, pct_venta = compute_diff(data, last_rates.get(tipo, {}))
-        guardar_cotizacion(tipo, data["compra"], data["venta"], diff_compra, diff_venta, pct_compra, pct_venta)
-    save_last_rates(rates)
