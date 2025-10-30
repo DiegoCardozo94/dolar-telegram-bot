@@ -1,87 +1,183 @@
- body {
-    background-color: #121620;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color: white;
-    margin: 40px;
-}
-.header {
-    max-width: 900px;
-    margin: 0 auto 30px auto;
-    text-align: center;
-}
-.header h1 {
-    font-weight: 700;
-    font-size: 2.2rem;
-    margin-bottom: 6px;
-}
-.header h2 {
-    font-weight: 500;
-    font-size: 1.1rem;
-    margin-bottom: 4px;
-    color: #b0b3c6;
-}
-.header p {
-    font-weight: 400;
-    font-size: 1rem;
-    color: #8a8ea4;
-}
-.container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: center;
-    max-width: 900px;
-    margin: auto;
-}
-.card {
-    background-color: #1f2630;
-    border-radius: 8px;
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #1a1a1a; /* Fondo oscuro similar a la imagen */
+    color: #e0e0e0;
+    margin: 0;
     padding: 20px;
-    width: 280px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Alinea arriba en el contenedor */
+    min-height: 100vh;
 }
-.card h3 {
+
+.container {
+    width: 100%;
+    max-width: 1200px; /* Ancho máximo para el contenido */
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+h1 {
+    font-size: 2.2em;
+    color: #ffffff;
     text-align: center;
-    margin-bottom: 15px;
-    font-weight: 700;
+    margin-bottom: 10px;
 }
-.rate-row {
+
+.last-update {
+    text-align: center;
+    color: #a0a0a0;
+    font-size: 0.9em;
+    margin-bottom: 30px;
+}
+
+.dolar-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Columnas responsivas */
+    gap: 20px; /* Espacio entre tarjetas */
+    margin-bottom: 40px;
+}
+
+.dolar-card {
+    background-color: #2b2b2b; /* Fondo de las tarjetas */
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Espacia el contenido */
+    transition: transform 0.2s ease-in-out;
+    border-left: 5px solid; /* Borde para el color de tendencia */
+}
+
+.dolar-card.positive { border-left-color: #28a745; } /* Verde */
+.dolar-card.negative { border-left-color: #dc3545; } /* Rojo */
+.dolar-card.neutral  { border-left-color: #ffc107; } /* Amarillo */
+
+.dolar-card:hover {
+    transform: translateY(-5px);
+}
+
+.card-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 10px;
-    font-size: 1.1rem;
-    font-weight: 600;
+    margin-bottom: 15px;
 }
-.label {
-    color: #9aa0b3;
-    font-weight: 500;
-    font-size: 0.9rem;
+
+.change-pct {
+    font-size: 0.9em;
+    font-weight: bold;
+    padding: 4px 8px;
+    border-radius: 5px;
+    color: #fff;
 }
-.value {
+.dolar-card.positive .change-pct { background-color: #28a745; }
+.dolar-card.negative .change-pct { background-color: #dc3545; }
+.dolar-card.neutral  .change-pct { background-color: #ffc107; color: #333; } /* Amarillo con texto oscuro */
+
+
+.dolar-type {
+    font-size: 1.1em;
+    font-weight: 700;
+    color: #ffffff;
+    margin: 0;
+}
+
+.card-body {
+    flex-grow: 1; /* Para que ocupe el espacio restante */
     display: flex;
-    align-items: center;
-    gap: 8px;
-}
-.emoji {
-    font-size: 1.2rem;
-}
-.pct-change {
-    font-size: 0.9rem;
-    font-weight: 500;
-    color: #b0b3c6;
-}
-.footer {
+    flex-direction: column;
+    justify-content: center; /* Centra verticalmente */
     text-align: center;
-    margin-top: 40px;
-    color: #6c7187;
-    font-size: 0.9rem;
+    margin-bottom: 15px;
 }
-.footer a {
-    color: #4b6cf7;
-    text-decoration: none;
-    font-weight: 600;
+
+.price-row {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
 }
-.footer a:hover {
-    text-decoration: underline;
+
+.price-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.label {
+    font-size: 0.8em;
+    color: #a0a0a0;
+    margin-bottom: 5px;
+}
+
+.value {
+    font-size: 1.6em;
+    font-weight: bold;
+    color: #ffffff;
+}
+
+/* Estilos específicos para "Valor de Referencia" */
+.value-ref {
+    font-size: 0.9em;
+    color: #a0a0a0;
+    margin-bottom: 5px;
+}
+
+.price { /* Para Tarjeta, Netflix, etc. */
+    font-size: 2em; /* Precio grande */
+    font-weight: bold;
+    color: #ffffff;
+    margin-top: 5px;
+}
+
+
+.card-footer {
+    font-size: 0.8em;
+    color: #a0a0a0;
+    text-align: right;
+    margin-top: 10px;
+}
+
+.footer-info {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.footer-info p {
+    font-size: 0.9em;
+    color: #a0a0a0;
+    margin-bottom: 15px;
+}
+
+.settings-button {
+    background-color: #3a3a3a;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-size: 0.9em;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.settings-button:hover {
+    background-color: #555555;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .dolar-grid {
+        grid-template-columns: 1fr; /* Una columna en pantallas pequeñas */
+    }
+    h1 {
+        font-size: 1.8em;
+    }
+    .value {
+        font-size: 1.4em;
+    }
+    .price {
+        font-size: 1.8em;
+    }
 }

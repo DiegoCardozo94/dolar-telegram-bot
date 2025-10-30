@@ -13,7 +13,7 @@ import requests
 from utils.telegram_client import TOKEN
 from utils.file_helpers import load_json, save_json
 from utils.formatters import prepare_data, emoji
-from utils.helpers import now_argentina, get_full_date, parse_tipo
+from utils.helpers import now_argentina, get_full_date, parse_tipo, time_ago
 
 # Servicios
 from services.dolar_services import (
@@ -27,7 +27,7 @@ from storage.initial_rates import (
     load_initial_rates,
     save_initial_rates_by_day
 )
-from config.constants import DATA_FILE
+from config.constants import DATA_FILE, CHECK_INTERVAL_MINUTES, HISTORY_JSON_FILE
 from scheduler.main_scheduler import start_scheduler, stop_scheduler
 
 # ---------------- Config ----------------
@@ -41,6 +41,7 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 
 # ---------------- Templates ----------------
 templates = Jinja2Templates(directory="templates")
+templates.env.globals['time_ago'] = time_ago
 
 # ---------------- Helpers (Funciones reutilizables que son web/bot-agnósticas) ----------------
 def now_argentina():
@@ -100,33 +101,89 @@ async def mock_rates(request: Request):
 
 @web_router.get("/", response_class=HTMLResponse)
 async def real_rates(request: Request):
-    data = get_all_dolar_rates()  # Cotizaciones actuales
-    now = now_argentina().strftime('%Y-%m-%d %H:%M')
+    data = get_all_dolar_rates() # Cotizaciones actuales
+    now_dt = now_argentina()
+    now = now_dt.strftime('%Y-%m-%d %H:%M')
     full_date = get_full_date()
+    
+    # 1. Inicialización de variables
+    last_save_timestamp = None 
+    last_individual_updates = {} 
+    history = []
+
+    # ------------------- LECTURA AISLADA DEL HISTORIAL -------------------
+    try:
+        history = load_json(HISTORY_JSON_FILE)
+        
+        # 1. Obtener el timestamp global (el último registro del historial)
+        if isinstance(history, list) and len(history) > 0 and history[-1].get("timestamp"):
+            last_save_timestamp = history[-1]["timestamp"]
+            
+        # 🚨 DIAGNÓSTICO: Muestra qué valor tomó la ruta web
+        print(f"Ruta Web: Valor leído de history.json: {last_save_timestamp}")
+            
+    except Exception as e:
+        print(f"Advertencia: Error al leer {HISTORY_JSON_FILE}: {e.__class__.__name__} - {e}")
+        pass 
+        
+    # 2. Establecer el FALLBACK (hora de la consulta) SOLO si el historial estaba vacío o falló la lectura
+    if last_save_timestamp is None:
+        last_save_timestamp = now_dt.isoformat()
+        
+    # ----------------------------------------------------------------------
+    # 3. LÓGICA CLAVE: ENCONTRAR ÚLTIMOS TIMESTAMPS INDIVIDUALES
+    # Iteramos el historial al revés (del más reciente al más antiguo)
+    # Solo guardamos el primer (último) timestamp que encontramos para cada tipo de dólar.
+    for record in reversed(history):
+        
+        # 🚨 CORRECCIÓN CRÍTICA: Ignorar registros que no son diccionarios (maneja el AttributeError)
+        if not isinstance(record, dict):
+            # No falla, simplemente salta el registro corrupto (cadena, etc.)
+            continue 
+            
+        dolar_type = record.get("tipo") 
+        timestamp = record.get("timestamp")
+        
+        # Si tiene tipo y timestamp, y no lo hemos registrado ya (porque iteramos al revés)
+        if dolar_type and timestamp and dolar_type not in last_individual_updates:
+            last_individual_updates[dolar_type] = timestamp
+            
+    # ----------------------------------------------------------------------
 
     try:
-        today_str = date.today().isoformat()  # 'YYYY-MM-DD'
+        today_str = date.today().isoformat()
 
-        # Cargar todas las aperturas históricas usando el nuevo storage/initial_rates.py
+        # Cargar/Guardar aperturas
         all_initials = load_initial_rates() 
-
-        # Guardar la apertura solo si no existe la del día actual
-        # save_initial_rates_by_day maneja la lógica de NO sobreescribir.
         save_initial_rates_by_day(data) 
-
+        
         # Usar la apertura del día para los cálculos
         initial_rates_today = all_initials.get(today_str, data)
         prepared = prepare_data(data, initial_dict=initial_rates_today)
 
-        # 💾 Actualizar últimos valores (Usamos load_json/save_json de utils)
+        # 💾 Actualizar últimos valores (last_rates.json)
         save_json(DATA_FILE, data) 
-
+        
     except Exception as e:
+        print(f"Error procesando cotizaciones en ruta web: {e}")
         return HTMLResponse(f"⚠️ Error obteniendo cotizaciones: {e}", status_code=500)
+        
+    # La variable ya tiene el valor correcto (Historial, o Fallback si el historial falló)
+    timestamp_for_cards = last_save_timestamp
 
+    # 4. Renderizar la plantilla con todas las variables necesarias
     return templates.TemplateResponse(
         "dolar_table.html",
-        {"request": request, "title": "Cotizaciones Reales", "now": now, "full_date": full_date, "data": prepared}
+        {
+            "request": request, 
+            "title": "Cotizaciones Reales", 
+            "now": now, 
+            "full_date": full_date, 
+            "data": prepared,
+            "CHECK_INTERVAL_MINUTES": CHECK_INTERVAL_MINUTES,
+            "last_updates": last_individual_updates, # <-- ¡CLAVE para horas individuales!
+            "timestamp_for_cards": timestamp_for_cards # <-- Fallback
+        }
     )
 
 # ----------- Bot Webhook -----------
