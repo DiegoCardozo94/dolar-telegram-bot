@@ -1,0 +1,87 @@
+ body {
+    background-color: #121620;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: white;
+    margin: 40px;
+}
+.header {
+    max-width: 900px;
+    margin: 0 auto 30px auto;
+    text-align: center;
+}
+.header h1 {
+    font-weight: 700;
+    font-size: 2.2rem;
+    margin-bottom: 6px;
+}
+.header h2 {
+    font-weight: 500;
+    font-size: 1.1rem;
+    margin-bottom: 4px;
+    color: #b0b3c6;
+}
+.header p {
+    font-weight: 400;
+    font-size: 1rem;
+    color: #8a8ea4;
+}
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    max-width: 900px;
+    margin: auto;
+}
+.card {
+    background-color: #1f2630;
+    border-radius: 8px;
+    padding: 20px;
+    width: 280px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+}
+.card h3 {
+    text-align: center;
+    margin-bottom: 15px;
+    font-weight: 700;
+}
+.rate-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+.label {
+    color: #9aa0b3;
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+.value {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.emoji {
+    font-size: 1.2rem;
+}
+.pct-change {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #b0b3c6;
+}
+.footer {
+    text-align: center;
+    margin-top: 40px;
+    color: #6c7187;
+    font-size: 0.9rem;
+}
+.footer a {
+    color: #4b6cf7;
+    text-decoration: none;
+    font-weight: 600;
+}
+.footer a:hover {
+    text-decoration: underline;
+}
