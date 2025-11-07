@@ -1,62 +1,65 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
-    <meta http-equiv="refresh" content="60">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ title }}</title>
     <link rel="stylesheet" href="{{ url_for('static', path='/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="header">
-        <h1>Cotización del dólar HOY</h1>
-        <h2>{{ full_date }}</h2>
-        <p>Dólar Oficial, Dólar Blue, Dólar Tarjeta, Dólar Mayorista, Dólar Cripto, Dólar MEP y Dólar CCL.</p>
-    </div>
-
     <div class="container">
+        <h1>{{ full_date }}</h1>
+        <p class="last-update">Última actualización: {{ now }}</p>
+
+    <div class="dolar-grid">
+        
+        {# Bucle ÚNICO que itera sobre todos los tipos de dólar #}
         {% for name, rates in data.items() %}
-        <div class="card">
-            <h3>Dólar {{ name.capitalize() }}</h3>
-                                    
-            <div class="rate-row">
-                <span class="label">APERTURA COMPRA</span>
-                <span class="value">
-                    <span class="emoji">{{ rates.apertura_emoji_compra }}</span>
-                    ${{ rates.apertura_compra }}
-                </span>
+        
+        {# 💡 LÓGICA CLAVE: Obtiene el timestamp específico del dólar actual. #}
+        <!-- {% set card_timestamp = last_updates.get(name, timestamp_for_cards) %} -->
+        
+        <div class="dolar-card {{ 'positive' if rates.pct_compra[0] == '+' else 'negative' if rates.pct_compra[0] == '-' else 'neutral' }}">
+            
+            <div class="card-header">
+                <span class="change-pct">{{ rates.pct_compra }}</span>
+                <h3 class="dolar-type">DÓLAR {{ name.upper() }}</h3>
             </div>
-
-            <div class="rate-row">
-                <span class="label">APERTURA VENTA</span>
-                <span class="value">
-                    <span class="emoji">{{ rates.apertura_emoji_venta }}</span>
-                    ${{ rates.apertura_venta }}
-                </span>
+            
+            <div class="card-body">
+                {% if name == 'tarjeta' %}
+                    <div class="value-ref">VALOR DE REFERENCIA:</div>
+                    <div class="price">${{ rates.compra }}</div>
+                {% else %}
+                    <div class="price-row">
+                        <div class="price-item">
+                            <span class="label">VENDÉ A:</span>
+                            <span class="value">${{ rates.compra }}</span>
+                        </div>
+                        <div class="price-item">
+                            <span class="label">COMPRÁ A:</span>
+                            <span class="value">${{ rates.venta }}</span>
+                        </div>
+                    </div>
+                {% endif %}
             </div>
-
-            <div class="rate-row">
-                <span class="label">COMPRA</span>
-                <span class="value">
-                    <span class="emoji">{{ rates.emoji_compra }}</span>
-                    ${{ rates.compra }}
-                    <span class="pct-change">({{ rates.pct_compra }})</span>
-                </span>
+            
+            {# 🚨 ESTE es el 'card-footer' correcto, utilizando la variable card_timestamp #}
+            <!-- 
+            <div class="card-footer">
+                <span>{{ time_ago(card_timestamp) }}</span>
             </div>
-
-            <div class="rate-row">
-                <span class="label">VENTA</span>
-                <span class="value">
-                    <span class="emoji">{{ rates.emoji_venta }}</span>
-                    ${{ rates.venta }}
-                    <span class="pct-change">({{ rates.pct_venta }})</span>
-                </span>
-            </div>
+            -->
+            
         </div>
         {% endfor %}
     </div>
-
-    <div class="footer">
-        Datos obtenidos de <a href="https://dolarapi.com" target="_blank" rel="noopener noreferrer">DolarApi.com</a><br>
-        Actualizado el {{ now }}
+        <div class="footer-info">
+            Datos obtenidos de <a href="https://dolarapi.com" target="_blank" rel="noopener noreferrer">DolarApi.com</a><br>
+            <p>Próxima actualización en {{ CHECK_INTERVAL_MINUTES if CHECK_INTERVAL_MINUTES is defined else '5' }} minutos</p>
+            <button class="settings-button">⚙️ Configurar cotizaciones</button>
+        </div>
     </div>
 </body>
 </html>
