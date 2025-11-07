@@ -18,7 +18,7 @@
         {% for name, rates in data.items() %}
         
         {# 💡 LÓGICA CLAVE: Obtiene el timestamp específico del dólar actual. #}
-        {% set card_timestamp = last_updates.get(name, timestamp_for_cards) %}
+        <!-- {% set card_timestamp = last_updates.get(name, timestamp_for_cards) %} -->
         
         <div class="dolar-card {{ 'positive' if rates.pct_compra[0] == '+' else 'negative' if rates.pct_compra[0] == '-' else 'neutral' }}">
             
@@ -46,14 +46,17 @@
             </div>
             
             {# 🚨 ESTE es el 'card-footer' correcto, utilizando la variable card_timestamp #}
+            <!-- 
             <div class="card-footer">
                 <span>{{ time_ago(card_timestamp) }}</span>
             </div>
+            -->
             
         </div>
         {% endfor %}
     </div>
         <div class="footer-info">
+            Datos obtenidos de <a href="https://dolarapi.com" target="_blank" rel="noopener noreferrer">DolarApi.com</a><br>
             <p>Próxima actualización en {{ CHECK_INTERVAL_MINUTES if CHECK_INTERVAL_MINUTES is defined else '5' }} minutos</p>
             <button class="settings-button">⚙️ Configurar cotizaciones</button>
         </div>
