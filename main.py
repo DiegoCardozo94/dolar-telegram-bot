@@ -261,8 +261,11 @@ async def lifespan(app: FastAPI):
 app.router.lifespan_context = lifespan
 
 # ---------------- Health ----------------
-@app.get("/health")
+# Solución: Acepta tanto GET (para navegadores) como HEAD (para UptimeRobot)
+@app.route("/health", methods=["GET", "HEAD"])
 async def health():
+    # FastAPI/Starlette maneja HEAD automáticamente si GET está disponible,
+    # pero definir ambos es la forma más segura.
     return {"status": "ok"}
 
 # ---------------- Register Routers ----------------
