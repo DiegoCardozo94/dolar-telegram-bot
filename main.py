@@ -2,7 +2,7 @@
 
 from fastapi import FastAPI, Request, APIRouter
 from fastapi.templating import Jinja2Templates
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, JSONResponse
 from contextlib import asynccontextmanager
 from datetime import datetime, date
 from zoneinfo import ZoneInfo
@@ -262,11 +262,11 @@ app.router.lifespan_context = lifespan
 
 # ---------------- Health ----------------
 # Solución: Acepta tanto GET (para navegadores) como HEAD (para UptimeRobot)
+
 @app.route("/health", methods=["GET", "HEAD"])
-async def health():
-    # FastAPI/Starlette maneja HEAD automáticamente si GET está disponible,
-    # pero definir ambos es la forma más segura.
-    return {"status": "ok"}
+async def health(request):  # <--- ¡Añade el argumento 'request' aquí!
+    # El código de tu bot sigue siendo el mismo:
+    return JSONResponse(content={"status": "ok"})
 
 # ---------------- Register Routers ----------------
 app.include_router(web_router)
